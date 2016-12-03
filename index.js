@@ -17,11 +17,12 @@
       if ($xhr.status !== 200) {
         return;
       }
+      console.log(data);
 
       const parties = ['Republican','Democrat','Independent','Libertarian','Green']
 
       const statementsInclusive = data.objects.map((statement) => {
-        if (parties.includes(statement.speaker.party.party)) {
+        if (parties.includes(statement.speaker.party.party) && statement.speaker.first_name !== '') {
           const statementObj = {
             quote: statement.statement,
             date: statement.statement_date,
@@ -65,8 +66,8 @@
 // Put together Answer Sets
   const answerSets = function(arrayOfObjects) {
     const speakers = statements.map((statement) => {
-      // console.log(statement);
       return statement.speaker.name;
     });
+    console.log(speakers);
   }
 })();
