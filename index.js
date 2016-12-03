@@ -101,6 +101,7 @@
       }
       return randomized;
     });
-    console.log(answerSets);
   }
+
+
 })();
