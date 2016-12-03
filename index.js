@@ -7,7 +7,7 @@
   const getStatements = function() {
     const $xhr = $.ajax({
       method: 'GET',
-      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=90&offset=0&format=json',
+      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=100&offset=0&format=json',
       dataType: 'json'
     });
 
