@@ -16,13 +16,33 @@ main .container {
   height: 100%;
 }
 
-#quote.row {
+#prompt {
+  height:
+}
+
+#quote {
   height: 40%;
+  box-shadow: 0 2px 3px 1px gray;
+  font-size: 1.2em;
+}
+
+#quote .container {
+  width: 85%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 3px 1px gray;
-  font-size: 1.2em;
+}
+
+#quote.row {
+  width: 90%;
+}
+
+#quote h2 {
+  font-size: 2em;
+}
+
+#quote h3 {
+  font-size: 1.3em;
 }
 
 #quote-tracker {
@@ -34,6 +54,6 @@ main .container {
 }
 
 
-footer.page-footer {
+footer .page-footer {
   margin: 0;
 }

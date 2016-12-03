@@ -18,6 +18,8 @@
       if ($xhr.status !== 200) {
         return;
       }
+
+      console.log(data);
       const parties = ['Republican','Democrat','Independent','Libertarian','Green']
 
       const statementsInclusive = data.objects.map((statement) => {
@@ -39,7 +41,7 @@
       statements = statementsInclusive.filter((statement) => {
         return statement;
       })
-
+      console.log(statements);
       selectGroupOfQuotes(statements);
       createAnswerSets(statements);
     });
