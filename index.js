@@ -2,7 +2,7 @@
   'use strict';
 
   let statements;
-  const statementsGroup = [];
+  let statementsGroup;
 
   const getStatements = function() {
     const $xhr = $.ajax({
@@ -47,6 +47,12 @@
     for (let i = 0; i < 10; i++) {
       statementsIndex.push(Math.floor(Math.random() * statementsLength));
     }
-    console.log(statementsIndex);
+
+    statementsGroup = statements.filter((statement, index) => {
+      if (statementsIndex.includes(index)) {
+        return statement;
+      }
+    });
+    console.log(statementsGroup);
   }
 })();
