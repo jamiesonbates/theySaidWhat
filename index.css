@@ -1,3 +1,39 @@
-h1,h2,h3,h4,h5,p {
+body {
+  height: 800px;
+}
+
+h1,h2,h3,h4,h5,p,ul {
+  margin: 0;
+}
+
+main {
+  position: relative;
+  top: 5%;
+  height: 80%;
+}
+
+main .container {
+  height: 100%;
+}
+
+#quote.row {
+  height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 3px 1px gray;
+  font-size: 1.2em;
+}
+
+#quote-tracker {
+  height: 5%;
+}
+
+.choices {
+  height: 27.5%;
+}
+
+
+footer.page-footer {
   margin: 0;
 }
