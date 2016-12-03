@@ -78,11 +78,14 @@
       const unrandomized = [speaker];
       const randomizedIndex = [];
       let randomized = [];
+      const taken = [];
 
       while (unrandomized.length < 4) {
-        const randomSpeaker = Math.floor(Math.random() * allSpeakers.length);
-        if (allSpeakers[randomSpeaker] !== speaker) {
-          unrandomized.push(allSpeakers[randomSpeaker]);
+        const randomI = Math.floor(Math.random() * allSpeakers.length);
+        const proposed = allSpeakers[randomI];
+        if (proposed !== speaker && !taken.includes(proposed)) {
+          unrandomized.push(proposed);
+          taken.push(proposed);
         }
       }
 
@@ -96,9 +99,8 @@
       for (let i = 0; i < 4; i++) {
         randomized[i] = unrandomized[randomizedIndex[i]];
       }
-      console.log(unrandomized);
-      console.log(randomizedIndex);
-      console.log(randomized);
+      return randomized;
     });
+    console.log(answerSets);
   }
 })();
