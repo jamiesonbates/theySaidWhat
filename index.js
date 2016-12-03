@@ -4,7 +4,7 @@
   let statements;
   let statementsGroup;
   const statementObjects = [];
-  const answerSets = [];
+  let answerSets = [];
 
 // Get Data and Create Object For Future Use
   const getStatements = function() {
@@ -18,8 +18,6 @@
       if ($xhr.status !== 200) {
         return;
       }
-      console.log(data);
-
       const parties = ['Republican','Democrat','Independent','Libertarian','Green']
 
       const statementsInclusive = data.objects.map((statement) => {
@@ -69,9 +67,20 @@
     const allSpeakers = statements.map((statement) => {
       return statement.speaker.name;
     });
+
     const correctAnswerSpeakers = statementsGroup.map((statement) => {
       return statement.speaker.name;
-    })
-    console.log(correctAnswerSpeakers);
+    });
+
+    answerSets = correctAnswerSpeakers.map((speaker) => {
+      const unrandomized = [speaker];
+
+      while (unrandomized.length < 4) {
+        const randomSpeaker = Math.floor(Math.random() * allSpeakers.length);
+        if (allSpeakers[randomSpeaker] !== speaker) {
+          unrandomized.push(allSpeakers[randomSpeaker]);
+        }
+      }
+    });
   }
 })();
