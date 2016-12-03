@@ -19,7 +19,7 @@
         return;
       }
 
-      console.log(data);
+      // console.log(data);
       const parties = ['Republican','Democrat','Independent','Libertarian','Green']
 
       const statementsInclusive = data.objects.map((statement) => {
@@ -41,7 +41,7 @@
       statements = statementsInclusive.filter((statement) => {
         return statement;
       })
-      console.log(statements);
+      // console.log(statements);
       selectGroupOfQuotes(statements);
       createAnswerSets(statements);
     });
@@ -76,6 +76,8 @@
 
     answerSets = correctAnswerSpeakers.map((speaker) => {
       const unrandomized = [speaker];
+      const randomizedIndex = [];
+      let randomized = [];
 
       while (unrandomized.length < 4) {
         const randomSpeaker = Math.floor(Math.random() * allSpeakers.length);
@@ -83,6 +85,20 @@
           unrandomized.push(allSpeakers[randomSpeaker]);
         }
       }
+
+      while (randomizedIndex.length < 4) {
+        const randomSpeaker = Math.floor(Math.random() * unrandomized.length);
+        if (!randomizedIndex.includes(randomSpeaker)) {
+          randomizedIndex.push(randomSpeaker);
+        }
+      }
+
+      for (let i = 0; i < 4; i++) {
+        randomized[i] = unrandomized[randomizedIndex[i]];
+      }
+      console.log(unrandomized);
+      console.log(randomizedIndex);
+      console.log(randomized);
     });
   }
 })();
