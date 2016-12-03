@@ -1,10 +1,8 @@
 (function() {
   'use strict';
 
-  let statements;
   let statementsGroup;
   const statementObjects = [];
-  let answerSets = [];
 
 // Get Data and Create Object For Future Use
   const getStatements = function() {
@@ -19,7 +17,6 @@
         return;
       }
 
-      // console.log(data);
       const parties = ['Republican','Democrat','Independent','Libertarian','Green']
 
       const statementsInclusive = data.objects.map((statement) => {
@@ -38,70 +35,70 @@
           return statementObj;
         }
       });
-      statements = statementsInclusive.filter((statement) => {
+
+      const statements = statementsInclusive.filter((statement) => {
         return statement;
-      })
-      // console.log(statements);
-      selectGroupOfQuotes(statements);
-      createAnswerSets(statements);
+      });
+
+      // selectGroupOfQuotes(statements);
+      const statementsObjSet = statements.filter((statement, index) => {
+        const statementsLength = statements.length;
+        const statementsIndex = [];
+
+        for (let i = 0; i < 10; i++) {
+          statementsIndex.push(Math.floor(Math.random() * statementsLength));
+        }
+
+        if (statementsIndex.includes(index)) {
+          return statement;
+        }
+      });
+
+      const allSpeakers = statements.map((statement) => {
+        return statement.speaker.name;
+      });
+
+      const answerSet = function(speaker, speakersGroup) {
+        const unrandomized = [speaker];
+        const randomizedIndex = [];
+        let randomized = [];
+        const taken = [];
+
+        while (unrandomized.length < 4) {
+          const randomI = Math.floor(Math.random() * speakersGroup.length);
+          const proposed = speakersGroup[randomI];
+          if (proposed !== speaker && !taken.includes(proposed)) {
+            unrandomized.push(proposed);
+            taken.push(proposed);
+          }
+        }
+
+        while (randomizedIndex.length < 4) {
+          const randomSpeaker = Math.floor(Math.random() * unrandomized.length);
+          if (!randomizedIndex.includes(randomSpeaker)) {
+            randomizedIndex.push(randomSpeaker);
+          }
+        }
+
+        for (let i = 0; i < 4; i++) {
+          randomized[i] = unrandomized[randomizedIndex[i]];
+        }
+        return randomized;
+      };
+
+      const statementObjSet2 = statementsObjSet.map((statementsObj) => {
+        statementsObj.answerSet = answerSet(statementsObj.speaker.name, allSpeakers);
+        return statementsObj;
+      });
+      console.log(statementObjSet2);
     });
-  };
+  }
   getStatements();
 
 // Select 10 Random Quotes from statements Object
-  const selectGroupOfQuotes = function(arrayOfObjects) {
-    const statementsLength = statements.length;
-    const statementsIndex = [];
-
-    for (let i = 0; i < 10; i++) {
-      statementsIndex.push(Math.floor(Math.random() * statementsLength));
-    }
-
-    statementsGroup = statements.filter((statement, index) => {
-      if (statementsIndex.includes(index)) {
-        return statement;
-      }
-    });
-  }
 
 // Put together Answer Sets
-  const createAnswerSets = function(arrayOfObjects) {
-    const allSpeakers = statements.map((statement) => {
-      return statement.speaker.name;
-    });
 
-    const correctAnswerSpeakers = statementsGroup.map((statement) => {
-      return statement.speaker.name;
-    });
-
-    answerSets = correctAnswerSpeakers.map((speaker) => {
-      const unrandomized = [speaker];
-      const randomizedIndex = [];
-      let randomized = [];
-      const taken = [];
-
-      while (unrandomized.length < 4) {
-        const randomI = Math.floor(Math.random() * allSpeakers.length);
-        const proposed = allSpeakers[randomI];
-        if (proposed !== speaker && !taken.includes(proposed)) {
-          unrandomized.push(proposed);
-          taken.push(proposed);
-        }
-      }
-
-      while (randomizedIndex.length < 4) {
-        const randomSpeaker = Math.floor(Math.random() * unrandomized.length);
-        if (!randomizedIndex.includes(randomSpeaker)) {
-          randomizedIndex.push(randomSpeaker);
-        }
-      }
-
-      for (let i = 0; i < 4; i++) {
-        randomized[i] = unrandomized[randomizedIndex[i]];
-      }
-      return randomized;
-    });
-  }
 
 
 })();
