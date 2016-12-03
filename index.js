@@ -3,7 +3,9 @@
 
   let statements;
   let statementsGroup;
+  const statementObjects = [];
 
+// Get Data and Create Object For Future Use
   const getStatements = function() {
     const $xhr = $.ajax({
       method: 'GET',
@@ -16,30 +18,35 @@
         return;
       }
 
-      statements = data.objects.filter((statement) => {
-        const parties = ['Republican','Democrat','Independent','Libertarian','Green']
+      const parties = ['Republican','Democrat','Independent','Libertarian','Green']
 
+      const statementsInclusive = data.objects.map((statement) => {
         if (parties.includes(statement.speaker.party.party)) {
           const statementObj = {
             quote: statement.statement,
             date: statement.statement_date,
-            url: `http://www.politifact.com${statement.canonical_url}`,
+            statement_url: `http://www.politifact.com${statement.canonical_url}`,
             ruling: statement.ruling.ruling,
             speaker: {
               name: `${statement.speaker.first_name} ${statement.speaker.last_name}`,
               party: statement.speaker.party.party,
-              photo: statement.speaker.photo
+              photo_url: statement.speaker.photo
             }
-          }
-        return statementObj;
+          };
+          return statementObj;
         }
       });
-      // console.log(statements);
-      selectGroupOfQuotes(statements);
-    });
-  }
-    getStatements();
+      statements = statementsInclusive.filter((statement) => {
+        return statement;
+      })
 
+      selectGroupOfQuotes(statements);
+      answerSets(statements);
+    });
+  };
+  getStatements();
+
+// Select 10 Random Quotes from statements Object
   const selectGroupOfQuotes = function(arrayOfObjects) {
     const statementsLength = statements.length;
     const statementsIndex = [];
@@ -53,6 +60,13 @@
         return statement;
       }
     });
-    console.log(statementsGroup);
+  }
+
+// Put together Answer Sets
+  const answerSets = function(arrayOfObjects) {
+    const speakers = statements.map((statement) => {
+      // console.log(statement);
+      return statement.speaker.name;
+    });
   }
 })();
