@@ -4,6 +4,7 @@
   let statements;
   let statementsGroup;
   const statementObjects = [];
+  const answerSets = [];
 
 // Get Data and Create Object For Future Use
   const getStatements = function() {
@@ -42,7 +43,7 @@
       })
 
       selectGroupOfQuotes(statements);
-      answerSets(statements);
+      createAnswerSets(statements);
     });
   };
   getStatements();
@@ -64,10 +65,13 @@
   }
 
 // Put together Answer Sets
-  const answerSets = function(arrayOfObjects) {
-    const speakers = statements.map((statement) => {
+  const createAnswerSets = function(arrayOfObjects) {
+    const allSpeakers = statements.map((statement) => {
       return statement.speaker.name;
     });
-    console.log(speakers);
+    const correctAnswerSpeakers = statementsGroup.map((statement) => {
+      return statement.speaker.name;
+    })
+    console.log(correctAnswerSpeakers);
   }
 })();
