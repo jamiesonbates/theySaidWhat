@@ -1,8 +1,8 @@
 (function() {
   'use strict';
 
-  const statementIDs = [];
   let statements;
+  const statementsGroup = [];
 
   const getStatements = function() {
     const $xhr = $.ajax({
@@ -34,8 +34,19 @@
         return statementObj;
         }
       });
-      console.log(statements);
+      // console.log(statements);
+      selectGroupOfQuotes(statements);
     });
   }
-  getStatements();
+    getStatements();
+
+  const selectGroupOfQuotes = function(arrayOfObjects) {
+    const statementsLength = statements.length;
+    const statementsIndex = [];
+
+    for (let i = 0; i < 10; i++) {
+      statementsIndex.push(Math.floor(Math.random() * statementsLength));
+    }
+    console.log(statementsIndex);
+  }
 })();
