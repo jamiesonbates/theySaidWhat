@@ -102,12 +102,18 @@
   let speakerGuessCount = 0;
 
   $('.answer').on('click', (event) => {
-    console.log('this works');
-
 
     // Check answer
-    const answer = $('event.target').text();
-    statementsObjSet.speakerGuess = answer;
+    const answer = $(event.target).text();
+    statementsObjSet[speakerGuessCount].speakerGuess = answer;
+
+    if (statementsObjSet[speakerGuessCount].speakerGuess === statementsObjSet[speakerGuessCount].speaker.name) {
+      $('#result').text(`Correct! ${statementsObjSet[speakerGuessCount].speakerGuess} said this quote.`);
+    }
+
+    if (statementsObjSet[speakerGuessCount].speakerGuess !== statementsObjSet[speakerGuessCount].speaker.name) {
+      $('#result').text(`Incorrect! ${statementsObjSet[speakerGuessCount].speaker.name} said this quote.`);
+    }
 
     // Change photo
     $('#photo').attr('src', statementsObjSet[speakerGuessCount].speaker.photo_url);
@@ -115,7 +121,7 @@
     // Show Politician Name
     $('#politician').text(statementsObjSet[speakerGuessCount].speaker.name);
 
-    speakerGuessCount++;
+    // speakerGuessCount++;
   });
 
 
