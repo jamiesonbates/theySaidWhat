@@ -53,9 +53,18 @@ main .container {
   height: 40%;
 }
 
-.choices .btn {
+.off {
+  display: none;
+}
+
+.p-choices .btn {
   height: 75px;
   width: 300px;
+}
+
+.tf-choices .btn {
+  height: 75px;
+  width: 140px;
 }
 
 .choices .btn p {
