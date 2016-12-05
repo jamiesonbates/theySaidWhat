@@ -106,15 +106,19 @@
   getStatements();
 
   let quoteCount = 0;
+  let politicianSelected = false;
+  let truthSelected = false;
 
   $('.politician-guess').on('click', (event) => {
     $('.selected').toggleClass('purple selected');
     $(event.target).toggleClass('purple selected');
+    politicianSelected = !politicianSelected;
   });
 
   $('.truth-guess').on('click', (event) => {
     $('.selected').toggleClass('purple selected');
     $(event.target).toggleClass('purple selected');
+    truthSelected = !truthSelected;
   });
 
   const partOne = function($target) {
@@ -170,6 +174,7 @@
     $('#photo').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png');
     $('#result').text('');
     $('#ruling').text('');
+    $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
   };
 
   let stepOneComplete = false;
@@ -177,12 +182,20 @@
 
   $('#submit').on('click', () => {
     const $target = $('.selected');
+    console.log($target);
+    console.log($('.choices-list').hasClass('selected'));
 
     if (!stepOneComplete && !stepTwoComplete) {
+      if (!politicianSelected) {
+        return;
+      }
       partOne($target);
       stepOneComplete = true;
     }
     else if (stepOneComplete && !stepTwoComplete) {
+      if (!truthSelected) {
+        return;
+      }
       partTwo($target);
       stepTwoComplete = true;
       quoteCount += 1;
