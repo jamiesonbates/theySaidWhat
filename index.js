@@ -40,14 +40,17 @@
         return statement;
       });
 
-      const statementsObjTempSet = statements.filter((statement, index) => {
-        const statementsLength = statements.length;
-        const statementsIndex = [];
+      const statementsIndex = [];
+      const statementsLength = statements.length;
 
-        for (let i = 0; i < 10; i++) {
-          statementsIndex.push(Math.floor(Math.random() * statementsLength));
+      while (statementsIndex.length < 10) {
+        const randomNumber = Math.floor(Math.random() * statementsLength);
+        if (!statementsIndex.includes(randomNumber)) {
+          statementsIndex.push(randomNumber);
         }
+      };
 
+      const statementsObjTempSet = statements.filter((statement, index) => {
         if (statementsIndex.includes(index)) {
           return statement;
         }
@@ -148,6 +151,8 @@
 
   const partTwo = function($target) {
     const answer = $target.text();
+    console.log(answer);
+    console.log(statementsObjSet[quoteCount].ruling);
 
     statementsObjSet[quoteCount].truthGuess = answer;
 
@@ -155,7 +160,7 @@
       $('#ruling').text(`Correct! The statement is ${statementsObjSet[quoteCount].ruling}`);
     };
 
-    if (statementsObjSet[quoteCount].truthGuess === statementsObjSet[quoteCount].ruling) {
+    if (statementsObjSet[quoteCount].truthGuess !== statementsObjSet[quoteCount].ruling) {
       $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[quoteCount].ruling}`);
     };
 
@@ -175,6 +180,7 @@
     $('#result').text('');
     $('#ruling').text('');
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
+    $('#submit p').text('Submit');
   };
 
   let stepOneComplete = false;
@@ -182,8 +188,6 @@
 
   $('#submit').on('click', () => {
     const $target = $('.selected');
-    console.log($target);
-    console.log($('.choices-list').hasClass('selected'));
 
     if (!stepOneComplete && !stepTwoComplete) {
       if (!politicianSelected) {
@@ -205,6 +209,8 @@
       nextQuestion();
       stepOneComplete = false;
       stepTwoComplete = false;
+      politicianSelected = !politicianSelected;
+      truthSelected = !truthSelected;
       $('.p-choices').toggleClass('off');
     }
 
