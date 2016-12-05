@@ -144,7 +144,6 @@
 
   const partTwo = function($target) {
     const answer = $target.text();
-    console.log(answer);
 
     statementsObjSet[quoteCount].truthGuess = answer;
 
@@ -158,19 +157,20 @@
 
     $('#prompt h2').text('Can you guess which politician said this?');
 
-    $('.p-choices').toggleClass('off');
     $('.tf-choices').toggleClass('off');
   };
 
   const nextQuestion = function() {
-    $('#quote-text').text(statementsObjSet[0].quote);
+    $('#quote-text').text(statementsObjSet[quoteCount].quote);
     $('#answer-1').text(statementsObjSet[quoteCount].answerSet[0]);
     $('#answer-2').text(statementsObjSet[quoteCount].answerSet[1]);
     $('#answer-3').text(statementsObjSet[quoteCount].answerSet[2]);
     $('#answer-4').text(statementsObjSet[quoteCount].answerSet[3]);
     $('#politician').text('A politician said this.');
     $('#photo').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png');
-  }
+    $('#result').text('');
+    $('#ruling').text('');
+  };
 
   let stepOneComplete = false;
   let stepTwoComplete = false;
@@ -178,22 +178,21 @@
   $('#submit').on('click', () => {
     const $target = $('.selected');
 
-    if (!stepOneCompelte && !stepTwoComplete) {
+    if (!stepOneComplete && !stepTwoComplete) {
       partOne($target);
       stepOneComplete = true;
     }
-
-    if (stepOneComplete && !stepTwoComplete) {
+    else if (stepOneComplete && !stepTwoComplete) {
       partTwo($target);
       stepTwoComplete = true;
       quoteCount += 1;
       $('#submit p').text('Next Question');
     }
-
-    if (stepOneComplete && stepTwoComplete) {
+    else if (stepOneComplete && stepTwoComplete) {
       nextQuestion();
       stepOneComplete = false;
       stepTwoComplete = false;
+      $('.p-choices').toggleClass('off');
     }
 
     $('.selected').toggleClass('purple selected');
