@@ -132,13 +132,15 @@
   $('.truth-guess').on('click', (event) => {
     const answer = $(event.target).text();
     statementsObjSet[truthGuessCount].truthGuess = answer;
+    console.log(statementsObjSet[truthGuessCount].ruling);
+    console.log(statementsObjSet[truthGuessCount].truthGuess);
 
     if (statementsObjSet[truthGuessCount].truthGuess === statementsObjSet[truthGuessCount].ruling) {
       $('#ruling').text(`Correct! The statement is ${statementsObjSet[truthGuessCount].ruling}`);
     }
 
-    if (statementsObjSet[truthGuessCount].truthGess === statementsObjSet[truthGuessCount].ruling) {
-      $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[truthGuesscount].ruling}`);
+    if (statementsObjSet[truthGuessCount].truthGuess === statementsObjSet[truthGuessCount].ruling) {
+      $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[truthGuessCount].ruling}`);
     }
 
     $('#prompt h2').text('Can you guess which politician said this?');
