@@ -25,102 +25,122 @@
 
     <main>
       <div class="container">
-        <section id="prompt">
-          <div class="row">
+        <section id="quiz">
+          <section id="prompt">
+            <div class="row">
+              <div class="col s12">
+                <h2 class="center">Can you guess which politician said this?</h2>
+              </div>
+            </div>
+          </section>
+
+          <section id="quote">
+            <div class="container">
+              <section id="question">
+                <div class="row">
+                  <div class="col s2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" height="75%" width="75%" id="photo">
+                  </div>
+
+                  <div class="col s10">
+                    <div>
+                      <h3 id="politician">A politician said this.</h3>
+
+                      <p id="quote-text"></p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section id="answer">
+                <div class="row">
+                  <div class="col s6">
+                    <h3>Result</h3>
+                    <p id="result"></p>
+                  </div>
+
+                  <div class="col s6">
+                    <h3>Truth-o-Meter</h3>
+                    <p id="ruling"></p>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <div id="quote-tracker" class="row">
             <div class="col s12">
-              <h2 class="center">Can you guess which politician said this?</h2>
+              <div class="center">
+                <p id="quote-count">Quote 1 of 10</p>
+                <button id="submit" class="btn"><p>Submit</p></button>
+              </div>
             </div>
           </div>
-        </section>
 
-        <section id="quote">
-          <div class="container">
-            <section id="question">
+          <div class="p-choices choices row">
+            <div class="col s12">
               <div class="row">
-                <div class="col s2">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" height="75%" width="75%" id="photo">
-                </div>
-
-                <div class="col s10">
-                  <div>
-                    <h3 id="politician">A politician said this.</h3>
-
-                    <p id="quote-text"></p>
+                <div class="col s12">
+                  <div class="center">
+                    <ul class="choices-list">
+                      <li class="btn white-text purple lighten-2 politician-guess" id="answer-1"></li>
+                      <li class="btn white-text purple lighten-2 politician-guess" id="answer-2"></li>
+                    </ul>
                   </div>
                 </div>
               </div>
-            </section>
 
-            <section id="answer">
               <div class="row">
-                <div class="col s6">
-                  <h3>Result</h3>
-                  <p id="result"></p>
-                </div>
-
-                <div class="col s6">
-                  <h3>Truth-o-Meter</h3>
-                  <p id="ruling"></p>
+                <div class="col s12">
+                  <div class="center">
+                    <ul class="choices-list">
+                      <li class="btn white-text purple lighten-2 politician-guess" id="answer-3"></li>
+                      <li class="btn white-text purple lighten-2 politician-guess" id="answer-4"></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </section>
+            </div>
+          </div>
+
+          <div class="tf-choices choices row off">
+            <div class="col s12">
+              <div class="row">
+                <div class="col s12">
+                  <div class="center">
+                    <ul class="choices-list">
+                      <li class="btn white-text purple lighten-2 truth-guess" id="true">True</li>
+                      <li class="btn white-text purple lighten-2 truth-guess" id="mostly-true">Mostly True</li>
+                      <li class="btn white-text purple lighten-2 truth-guess" id="half-true">Half-True</li>
+                      <li class="btn white-text purple lighten-2 truth-guess" id="mostly-false">Mostly False</li>
+                      <li class="btn white-text purple lighten-2 truth-guess" id="false">False</li>
+                      <li class="btn white-text purple lighten-2 truth-guess" id="pants-on-fire">Pants On Fire</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <div id="quote-tracker" class="row">
-          <div class="col s12">
-            <div class="center">
-              <p id="quote-count">Quote 1 of 10</p>
-              <button id="submit" class="btn"><p>Submit</p></button>
-            </div>
-          </div>
-        </div>
+        <section id="results" class="off">
+          <h2>Results</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Politician</th>
+                <th>Party</th>
+                <th>Quote</th>
+                <th>Ruling</th>
+                <th>Politician You Guessed</th>
+                <th>Ruling You Guessed</th>
+              </tr>
+            </thead>
 
-        <div class="p-choices choices row">
-          <div class="col s12">
-            <div class="row">
-              <div class="col s12">
-                <div class="center">
-                  <ul class="choices-list">
-                    <li class="btn white-text purple lighten-2 politician-guess" id="answer-1"></li>
-                    <li class="btn white-text purple lighten-2 politician-guess" id="answer-2"></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col s12">
-                <div class="center">
-                  <ul class="choices-list">
-                    <li class="btn white-text purple lighten-2 politician-guess" id="answer-3"></li>
-                    <li class="btn white-text purple lighten-2 politician-guess" id="answer-4"></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tf-choices choices row off">
-          <div class="col s12">
-            <div class="row">
-              <div class="col s12">
-                <div class="center">
-                  <ul class="choices-list">
-                    <li class="btn white-text purple lighten-2 truth-guess" id="true">True</li>
-                    <li class="btn white-text purple lighten-2 truth-guess" id="mostly-true">Mostly True</li>
-                    <li class="btn white-text purple lighten-2 truth-guess" id="half-true">Half-True</li>
-                    <li class="btn white-text purple lighten-2 truth-guess" id="mostly-false">Mostly False</li>
-                    <li class="btn white-text purple lighten-2 truth-guess" id="false">False</li>
-                    <li class="btn white-text purple lighten-2 truth-guess" id="pants-on-fire">Pants On Fire</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+            <tbody>
+            </tbody>
+          </table>
+        </section>
       </div>
     </main>
 

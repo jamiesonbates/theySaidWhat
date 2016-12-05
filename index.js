@@ -1,9 +1,13 @@
 (function() {
   'use strict';
 
+// -----------------------------------------------------------------------------
+//
+//  Get Data and Create Object For Future Use
+//
+// -----------------------------------------------------------------------------
   let statementsObjSet;
 
-// Get Data and Create Object For Future Use
   const getStatements = function() {
     const $xhr = $.ajax({
       method: 'GET',
@@ -108,6 +112,11 @@
 
   getStatements();
 
+// -----------------------------------------------------------------------------
+//
+//  Render Data on Page and Add Functionality For Quiz
+//
+// -----------------------------------------------------------------------------
   let quoteCount = 0;
   let politicianSelected = false;
   let truthSelected = false;
@@ -151,8 +160,6 @@
 
   const partTwo = function($target) {
     const answer = $target.text();
-    console.log(answer);
-    console.log(statementsObjSet[quoteCount].ruling);
 
     statementsObjSet[quoteCount].truthGuess = answer;
 
@@ -167,6 +174,8 @@
     $('#prompt h2').text('Can you guess which politician said this?');
 
     $('.tf-choices').toggleClass('off');
+
+    $('#submit p').text('Next Question');
   };
 
   const nextQuestion = function() {
@@ -180,8 +189,34 @@
     $('#result').text('');
     $('#ruling').text('');
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
-    $('#submit p').text('Submit');
+
+    if (quoteCount < 10) {
+      $('#submit p').text('Submit');
+    }
   };
+
+  const buildResults = function() {
+    for (const statement of statementsObjSet) {
+      console.log(statement);
+      const $tr = $('<tr>');
+
+      const $tdName = $('<td>').text(statement.speaker.name);
+      const $tdParty = $('<td>').text(statement.speaker.party);
+      const $tdQuote = $('<td>').text(statement.quote);
+      const $tdRuling = $('<td>').text(statement.ruling);
+      const $tdSpeaker = $('<td>').text(statement.speakerGuess);
+      const $tdTruth = $('<td>').text(statement.truthGuess);
+
+      $tr.append($tdName);
+      $tr.append($tdParty);
+      $tr.append($tdQuote);
+      $tr.append($tdRuling);
+      $tr.append($tdSpeaker);
+      $tr.append($tdTruth);
+
+      $('tbody').append($tr);
+    }
+  }
 
   let stepOneComplete = false;
   let stepTwoComplete = false;
@@ -203,9 +238,12 @@
       partTwo($target);
       stepTwoComplete = true;
       quoteCount += 1;
-      $('#submit p').text('Next Question');
+
+      if (quoteCount === 10) {
+        $('#submit p').text('See Results');
+      }
     }
-    else if (stepOneComplete && stepTwoComplete) {
+    else if (stepOneComplete && stepTwoComplete && quoteCount < 10) {
       nextQuestion();
       stepOneComplete = false;
       stepTwoComplete = false;
@@ -213,8 +251,14 @@
       truthSelected = !truthSelected;
       $('.p-choices').toggleClass('off');
     }
+    else if (quoteCount === 10) {
+      $('#quiz').addClass('off');
+      $('#results').removeClass('off');
+      buildResults();
+    }
 
     $('.selected').toggleClass('purple selected');
   });
+
 
 })();
