@@ -101,14 +101,12 @@
   // Count Guesses of Politicians
   let speakerGuessCount = 0;
 
-  $('.answer').on('click', (event) => {
-
-    // Check answer
+  $('.politician-guess').on('click', (event) => {
     const answer = $(event.target).text();
     statementsObjSet[speakerGuessCount].speakerGuess = answer;
 
     if (statementsObjSet[speakerGuessCount].speakerGuess === statementsObjSet[speakerGuessCount].speaker.name) {
-      $('#result').text(`Correct! ${statementsObjSet[speakerGuessCount].speakerGuess} said this quote.`);
+      $('#result').text(`Correct! ${statementsObjSet[speakerGuessCount].speaker.name} said this quote.`);
     }
 
     if (statementsObjSet[speakerGuessCount].speakerGuess !== statementsObjSet[speakerGuessCount].speaker.name) {
@@ -121,8 +119,35 @@
     // Show Politician Name
     $('#politician').text(statementsObjSet[speakerGuessCount].speaker.name);
 
-    // speakerGuessCount++;
+    $('#prompt h2').text('Do you know how truthful the statement was?');
+
+    $('.p-choices').toggleClass('off');
+    $('.tf-choices').toggleClass('off');
+
+    speakerGuessCount++;
   });
+
+  let truthGuessCount = 0;
+
+  $('.truth-guess').on('click', (event) => {
+    const answer = $(event.target).text();
+    statementsObjSet[truthGuessCount].truthGuess = answer;
+
+    if (statementsObjSet[truthGuessCount].truthGuess === statementsObjSet[truthGuessCount].ruling) {
+      $('#ruling').text(`Correct! The statement is ${statementsObjSet[truthGuessCount].ruling}`);
+    }
+
+    if (statementsObjSet[truthGuessCount].truthGess === statementsObjSet[truthGuessCount].ruling) {
+      $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[truthGuesscount].ruling}`);
+    }
+
+    $('#prompt h2').text('Can you guess which politician said this?');
+
+    $('.p-choices').toggleClass('off');
+    $('.tf-choices').toggleClass('off');
+
+    truthGuessCount++;
+  })
 
 
 
