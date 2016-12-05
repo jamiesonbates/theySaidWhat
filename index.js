@@ -1,8 +1,7 @@
 (function() {
   'use strict';
 
-  let statementsGroup;
-  const statementObjects = [];
+  let statementsObjSet;
 
 // Get Data and Create Object For Future Use
   const getStatements = function() {
@@ -40,8 +39,7 @@
         return statement;
       });
 
-      // selectGroupOfQuotes(statements);
-      const statementsObjSet = statements.filter((statement, index) => {
+      const statementsObjTempSet = statements.filter((statement, index) => {
         const statementsLength = statements.length;
         const statementsIndex = [];
 
@@ -86,18 +84,40 @@
         return randomized;
       };
 
-      const statementObjSet2 = statementsObjSet.map((statementsObj) => {
+      statementsObjSet = statementsObjTempSet.map((statementsObj) => {
         statementsObj.answerSet = answerSet(statementsObj.speaker.name, allSpeakers);
         return statementsObj;
       });
-      console.log(statementObjSet2);
+      $('#quote-text').text(statementsObjSet[0].quote);
+      $('#answer-1').text(statementsObjSet[0].answerSet[0]);
+      $('#answer-2').text(statementsObjSet[0].answerSet[1]);
+      $('#answer-3').text(statementsObjSet[0].answerSet[2]);
+      $('#answer-4').text(statementsObjSet[0].answerSet[3]);
     });
   }
+
   getStatements();
 
-// Select 10 Random Quotes from statements Object
+  // Count Guesses of Politicians
+  let speakerGuessCount = 0;
 
-// Put together Answer Sets
+  $('.answer').on('click', (event) => {
+    console.log('this works');
+
+    // Check answer
+    const answer = $('event.target').text();
+    statementsObjSet.speakerGuess = answer;
+
+    // Change photo
+    $('#photo').attr('src', statementsObjSet[speakerGuessCount].speaker.photo_url);
+
+    // Show Politician Name
+    $('#politician').text(statementsObjSet[speakerGuessCount].speaker.name);
+
+    speakerGuessCount++;
+  });
+
+
 
 
 
