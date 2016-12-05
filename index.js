@@ -94,6 +94,7 @@
         return statementsObj;
       });
 
+      // populate page with first quote
       $('#quote-text').text(statementsObjSet[0].quote);
       $('#answer-1').text(statementsObjSet[0].answerSet[0]);
       $('#answer-2').text(statementsObjSet[0].answerSet[1]);
@@ -105,22 +106,33 @@
   getStatements();
 
   let quoteCount = 0;
+  let stepTwo = false;
 
   $('.politician-guess').on('click', (event) => {
-    const answer = $(event.target).text();
+    $('.selected').toggleClass('purple selected');
+    $(event.target).toggleClass('purple selected');
+  });
+
+  $('.truth-guess').on('click', (event) => {
+    $('.selected').toggleClass('purple selected');
+    $(event.target).toggleClass('purple selected');
+  });
+
+  const partOne = function($target) {
+    const answer = $target.text();
 
     statementsObjSet[quoteCount].speakerGuess = answer;
 
     if (statementsObjSet[quoteCount].speakerGuess === statementsObjSet[quoteCount].speaker.name) {
       $('#result').text(`Correct! ${statementsObjSet[quoteCount].speaker.name} said this quote.`);
-    }
+    };
 
     if (statementsObjSet[quoteCount].speakerGuess !== statementsObjSet[quoteCount].speaker.name) {
       $('#result').text(`Incorrect! ${statementsObjSet[quoteCount].speaker.name} said this quote.`);
-    }
+    };
 
     // Change photo
-    $('#photo').attr('src', statementsObjSet[quoteCount].speaker.photo_url);
+    $('#photo').attr('src', statementsObjSet[quoteCount].speaker.photoUrl);
 
     // Show Politician Name
     $('#politician').text(statementsObjSet[quoteCount].speaker.name);
@@ -129,20 +141,21 @@
 
     $('.p-choices').toggleClass('off');
     $('.tf-choices').toggleClass('off');
-  });
+  };
 
-  $('.truth-guess').on('click', (event) => {
-    const answer = $(event.target).text();
+  const partTwo = function($target) {
+    const answer = $target.text();
+    console.log(answer);
 
     statementsObjSet[quoteCount].truthGuess = answer;
 
     if (statementsObjSet[quoteCount].truthGuess === statementsObjSet[quoteCount].ruling) {
       $('#ruling').text(`Correct! The statement is ${statementsObjSet[quoteCount].ruling}`);
-    }
+    };
 
     if (statementsObjSet[quoteCount].truthGuess === statementsObjSet[quoteCount].ruling) {
       $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[quoteCount].ruling}`);
-    }
+    };
 
     $('#prompt h2').text('Can you guess which politician said this?');
 
@@ -150,5 +163,23 @@
     $('.tf-choices').toggleClass('off');
 
     quoteCount += 1;
+  };
+
+
+  $('#submit').on('click', () => {
+    const $target = $('.selected');
+
+    if (!stepTwo) {
+      partOne($target);
+    }
+
+    if (stepTwo) {
+      partTwo($target);
+    }
+
+    $('.politician-guess').removeClass('selected');
+    $('.truth-guess').removeClass('selected');
+
+    stepTwo = !stepTwo;
   });
 })();

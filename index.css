@@ -65,6 +65,14 @@ main .container {
   height: 5%;
 }
 
+#quote-count {
+  margin-bottom: 5px;
+}
+
+#submit p {
+  margin: 0;
+}
+
 .choices {
   height: 40%;
 }
@@ -83,8 +91,14 @@ main .container {
   width: 140px;
 }
 
-.choices .btn p {
+.choices .btn {
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.choices-list {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,4 +115,8 @@ main .container {
 
 footer .page-footer {
   margin: 0;
+}
+
+.selected {
+  background-color: #4caf50;
 }
