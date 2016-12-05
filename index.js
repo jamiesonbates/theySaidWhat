@@ -104,6 +104,7 @@
   $('.answer').on('click', (event) => {
     console.log('this works');
 
+
     // Check answer
     const answer = $('event.target').text();
     statementsObjSet.speakerGuess = answer;
