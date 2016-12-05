@@ -106,7 +106,6 @@
   getStatements();
 
   let quoteCount = 0;
-  let stepTwo = false;
 
   $('.politician-guess').on('click', (event) => {
     $('.selected').toggleClass('purple selected');
@@ -161,25 +160,43 @@
 
     $('.p-choices').toggleClass('off');
     $('.tf-choices').toggleClass('off');
-
-    quoteCount += 1;
   };
 
+  const nextQuestion = function() {
+    $('#quote-text').text(statementsObjSet[0].quote);
+    $('#answer-1').text(statementsObjSet[quoteCount].answerSet[0]);
+    $('#answer-2').text(statementsObjSet[quoteCount].answerSet[1]);
+    $('#answer-3').text(statementsObjSet[quoteCount].answerSet[2]);
+    $('#answer-4').text(statementsObjSet[quoteCount].answerSet[3]);
+    $('#politician').text('A politician said this.');
+    $('#photo').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png');
+  }
+
+  let stepOneComplete = false;
+  let stepTwoComplete = false;
 
   $('#submit').on('click', () => {
     const $target = $('.selected');
 
-    if (!stepTwo) {
+    if (!stepOneCompelte && !stepTwoComplete) {
       partOne($target);
+      stepOneComplete = true;
     }
 
-    if (stepTwo) {
+    if (stepOneComplete && !stepTwoComplete) {
       partTwo($target);
+      stepTwoComplete = true;
+      quoteCount += 1;
+      $('#submit p').text('Next Question');
     }
 
-    $('.politician-guess').removeClass('selected');
-    $('.truth-guess').removeClass('selected');
+    if (stepOneComplete && stepTwoComplete) {
+      nextQuestion();
+      stepOneComplete = false;
+      stepTwoComplete = false;
+    }
 
-    stepTwo = !stepTwo;
+    $('.selected').toggleClass('purple selected');
   });
+
 })();
