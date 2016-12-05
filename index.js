@@ -16,7 +16,7 @@
         return;
       }
 
-      const parties = ['Republican','Democrat','Independent','Libertarian','Green']
+      const parties = ['Republican', 'Democrat', 'Independent', 'Libertarian', 'Green'];
 
       const statementsInclusive = data.objects.map((statement) => {
         if (parties.includes(statement.speaker.party.party) && statement.speaker.first_name !== '') {
@@ -28,9 +28,10 @@
             speaker: {
               name: `${statement.speaker.first_name} ${statement.speaker.last_name}`,
               party: statement.speaker.party.party,
-              photo_url: statement.speaker.photo
+              photoUrl: statement.speaker.photo
             }
           };
+
           return statementObj;
         }
       });
@@ -59,12 +60,13 @@
       const answerSet = function(speaker, speakersGroup) {
         const unrandomized = [speaker];
         const randomizedIndex = [];
-        let randomized = [];
+        const randomized = [];
         const taken = [];
 
         while (unrandomized.length < 4) {
           const randomI = Math.floor(Math.random() * speakersGroup.length);
           const proposed = speakersGroup[randomI];
+
           if (proposed !== speaker && !taken.includes(proposed)) {
             unrandomized.push(proposed);
             taken.push(proposed);
@@ -73,6 +75,7 @@
 
         while (randomizedIndex.length < 4) {
           const randomSpeaker = Math.floor(Math.random() * unrandomized.length);
+
           if (!randomizedIndex.includes(randomSpeaker)) {
             randomizedIndex.push(randomSpeaker);
           }
@@ -81,66 +84,64 @@
         for (let i = 0; i < 4; i++) {
           randomized[i] = unrandomized[randomizedIndex[i]];
         }
+
         return randomized;
       };
 
       statementsObjSet = statementsObjTempSet.map((statementsObj) => {
         statementsObj.answerSet = answerSet(statementsObj.speaker.name, allSpeakers);
+
         return statementsObj;
       });
+
       $('#quote-text').text(statementsObjSet[0].quote);
       $('#answer-1').text(statementsObjSet[0].answerSet[0]);
       $('#answer-2').text(statementsObjSet[0].answerSet[1]);
       $('#answer-3').text(statementsObjSet[0].answerSet[2]);
       $('#answer-4').text(statementsObjSet[0].answerSet[3]);
     });
-  }
+  };
 
   getStatements();
 
-  // Count Guesses of Politicians
-  let speakerGuessCount = 0;
+  let quoteCount = 0;
 
   $('.politician-guess').on('click', (event) => {
     const answer = $(event.target).text();
-    statementsObjSet[speakerGuessCount].speakerGuess = answer;
 
-    if (statementsObjSet[speakerGuessCount].speakerGuess === statementsObjSet[speakerGuessCount].speaker.name) {
-      $('#result').text(`Correct! ${statementsObjSet[speakerGuessCount].speaker.name} said this quote.`);
+    statementsObjSet[quoteCount].speakerGuess = answer;
+
+    if (statementsObjSet[quoteCount].speakerGuess === statementsObjSet[quoteCount].speaker.name) {
+      $('#result').text(`Correct! ${statementsObjSet[quoteCount].speaker.name} said this quote.`);
     }
 
-    if (statementsObjSet[speakerGuessCount].speakerGuess !== statementsObjSet[speakerGuessCount].speaker.name) {
-      $('#result').text(`Incorrect! ${statementsObjSet[speakerGuessCount].speaker.name} said this quote.`);
+    if (statementsObjSet[quoteCount].speakerGuess !== statementsObjSet[quoteCount].speaker.name) {
+      $('#result').text(`Incorrect! ${statementsObjSet[quoteCount].speaker.name} said this quote.`);
     }
 
     // Change photo
-    $('#photo').attr('src', statementsObjSet[speakerGuessCount].speaker.photo_url);
+    $('#photo').attr('src', statementsObjSet[quoteCount].speaker.photo_url);
 
     // Show Politician Name
-    $('#politician').text(statementsObjSet[speakerGuessCount].speaker.name);
+    $('#politician').text(statementsObjSet[quoteCount].speaker.name);
 
     $('#prompt h2').text('Do you know how truthful the statement was?');
 
     $('.p-choices').toggleClass('off');
     $('.tf-choices').toggleClass('off');
-
-    speakerGuessCount++;
   });
-
-  let truthGuessCount = 0;
 
   $('.truth-guess').on('click', (event) => {
     const answer = $(event.target).text();
-    statementsObjSet[truthGuessCount].truthGuess = answer;
-    console.log(statementsObjSet[truthGuessCount].ruling);
-    console.log(statementsObjSet[truthGuessCount].truthGuess);
 
-    if (statementsObjSet[truthGuessCount].truthGuess === statementsObjSet[truthGuessCount].ruling) {
-      $('#ruling').text(`Correct! The statement is ${statementsObjSet[truthGuessCount].ruling}`);
+    statementsObjSet[quoteCount].truthGuess = answer;
+
+    if (statementsObjSet[quoteCount].truthGuess === statementsObjSet[quoteCount].ruling) {
+      $('#ruling').text(`Correct! The statement is ${statementsObjSet[quoteCount].ruling}`);
     }
 
-    if (statementsObjSet[truthGuessCount].truthGuess === statementsObjSet[truthGuessCount].ruling) {
-      $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[truthGuessCount].ruling}`);
+    if (statementsObjSet[quoteCount].truthGuess === statementsObjSet[quoteCount].ruling) {
+      $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[quoteCount].ruling}`);
     }
 
     $('#prompt h2').text('Can you guess which politician said this?');
@@ -148,11 +149,6 @@
     $('.p-choices').toggleClass('off');
     $('.tf-choices').toggleClass('off');
 
-    truthGuessCount++;
-  })
-
-
-
-
-
+    quoteCount += 1;
+  });
 })();
