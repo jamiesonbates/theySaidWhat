@@ -47,10 +47,13 @@ main .container {
 
 #quote-text {
   font-size: 1.4em;
+  margin-bottom: 5px;
+  margin-top: 20px;
 }
 
 #context {
   font-style: italic;
+  margin-top: 5px;
 }
 
 #question {
@@ -68,6 +71,9 @@ main .container {
 
 #question .row.extra-info .col {
   margin-left: 0;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 #party, #position, #state {
@@ -89,6 +95,23 @@ main .container {
 
 #answer .row {
   width: 100%;
+}
+
+.truth-info {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+.img-size {
+  height: 100%;
+  width: 100%;
+}
+
+.img-size2 {
+  height: 80%;
+  width: 80%;
 }
 
 #prompt h2 {

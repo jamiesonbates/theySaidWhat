@@ -32,8 +32,10 @@
             quote: (statement.statement).trim(),
             date: statement.statement_date,
             statementContext: statement.statement_context,
-            statement_url: `http://www.politifact.com${statement.canonical_url}`,
+            statementUrl: `http://www.politifact.com${statement.canonical_url}`,
             ruling: statement.ruling.ruling,
+            rulingGraphic: statement.ruling.ruling_graphic,
+            rulingSummary: statement.ruling_headline,
             speaker: {
               name: `${statement.speaker.first_name} ${statement.speaker.last_name}`,
               position: statement.speaker.current_job,
@@ -143,7 +145,7 @@
 
       // populate page with first quote
       $('#quote-text').text(statementsObjSet[0].quote);
-      $('#context').text(`Said in ${statementsObjSet[0].statementContext} on ${statementsObjSet[0].date}.`);
+      $('#context').text(`Said in ${statementsObjSet[0].statementContext}`);
       $('#answer-1').text(statementsObjSet[0].answerSet[0].name);
       $('#answer-2').text(statementsObjSet[0].answerSet[1].name);
       $('#answer-3').text(statementsObjSet[0].answerSet[2].name);
@@ -209,6 +211,11 @@
 
     $('#prompt h2').text('');
 
+    $('#truth-photo').removeClass('off');
+    $('#truth-photo').attr('src',statementsObjSet[quoteCount].rulingGraphic);
+    $('#summary-header').removeClass('off');
+    $('#ruling-summary').text(statementsObjSet[quoteCount].rulingSummary);
+
     $('.tf-choices').toggleClass('off');
 
     $('#submit').removeClass('off');
@@ -227,7 +234,9 @@
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
     $('#submit').addClass('off');
     $('#prompt h2').text('Can you guess which politician said this?');
-    $('#context').text(`Said in ${statementsObjSet[quoteCount]} on ${statementsObjSet[quoteCount].date}.`);
+    $('#context').text(`Said in ${statementsObjSet[quoteCount].statementContext}.`);
+    $('#truth-photo').addClass('off');
+    $('#summary-header').addClass('off');
   };
 
   const buildResults = function() {
