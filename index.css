@@ -17,9 +17,9 @@ main .container {
 }
 
 #quote {
-  height: 40%;
+  height: 50%;
+  position: relative;
   box-shadow: 0 2px 3px 1px gray;
-  font-size: 1.2em;
 }
 
 #quote .container {
@@ -27,6 +27,10 @@ main .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+#quiz {
+  height: 100%;
 }
 
 #quote.row {
@@ -41,6 +45,10 @@ main .container {
   font-size: 1.3em;
 }
 
+#quote-text {
+  font-size: 1.4em;
+}
+
 #question {
   height: 75%;
   display: flex;
@@ -48,7 +56,7 @@ main .container {
 }
 
 #answer {
-  height: 25%;
+  height: 50%;
   display: flex;
   align-items: center;
 }
@@ -77,11 +85,11 @@ main .container {
 }
 #submit p {
   margin: 0;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .choices {
-  height: 40%;
+  height: 10%;
 }
 
 .off {
@@ -89,8 +97,8 @@ main .container {
 }
 
 .p-choices .btn {
-  height: 50px;
-  width: 200px;
+  height: 75px;
+  width: 250px;
 }
 
 .tf-choices .btn {
