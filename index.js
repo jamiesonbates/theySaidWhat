@@ -29,7 +29,7 @@
 
         if (parties.includes(statement.speaker.party.party) && statement.speaker.first_name !== '') {
           const statementObj = {
-            quote: statement.statement,
+            quote: (statement.statement).trim(),
             date: statement.statement_date,
             statement_url: `http://www.politifact.com${statement.canonical_url}`,
             ruling: statement.ruling.ruling,
@@ -115,10 +115,16 @@
         editedQuote = editedQuote.replace('<p>','');
         editedQuote = editedQuote.replace('</p>','');
         editedQuote = editedQuote.replace('<div>','');
+        editedQuote = editedQuote.replace('<div>','');
         editedQuote = editedQuote.replace('</div>','');
         editedQuote = editedQuote.replace(/(&quot;)/g, '"');
         editedQuote = editedQuote.replace(/(&rsquo;)/g, "'");
         editedQuote = editedQuote.replace(/(&#39;)/g, "'");
+        editedQuote = editedQuote.replace(/(<div dir="ltr">)/g, '');
+        editedQuote = editedQuote.replace(/(&nbsp;<\/div>)/g, '');
+        editedQuote = editedQuote.replace(/(<p> <\/p>)/g, '');
+        editedQuote = editedQuote.replace(/(<p>&nbsp;<\/p>)/g, '');
+
         // const re1 = new RegExp(/(<p>";<\/p>)/,'g');
         // editedQuote = editedQuote.replace(re1,'');
         // const re = /(<div dir="ltr">";)/g;
@@ -129,7 +135,7 @@
         editedQuote = editedQuote.replace('<br />', ' ');
 
         statementsObj.quote = `${editedQuote}`;
-        // console.log(statementsObj.quote);
+        console.log(statementsObj.quote);
 
         return statementsObj;
       });
@@ -175,6 +181,8 @@
 
     $('.p-choices').toggleClass('off');
     $('.tf-choices').toggleClass('off');
+
+    $('div.politician-panel').addClass('off');
   };
 
   const partTwo = function($target) {
@@ -302,3 +310,5 @@
 
 
 })();
+
+$('#modal1').modal('open');
