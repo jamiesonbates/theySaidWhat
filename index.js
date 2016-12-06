@@ -35,6 +35,8 @@
             ruling: statement.ruling.ruling,
             speaker: {
               name: `${statement.speaker.first_name} ${statement.speaker.last_name}`,
+              position: statement.speaker.current_job,
+              state: statement.speaker.home_state,
               party: statement.speaker.party.party,
               photoUrl: statement.speaker.photo
             }
@@ -65,7 +67,7 @@
       });
 
       const allSpeakers = statements.map((statement) => {
-        return statement.speaker.name;
+        return statement.speaker; // .name
       });
 
       const answerSet = function(speaker, speakersGroup) {
@@ -77,8 +79,15 @@
         while (unrandomized.length < 4) {
           const randomI = Math.floor(Math.random() * speakersGroup.length);
           const proposed = speakersGroup[randomI];
+          let takenBool = false;
 
-          if (proposed !== speaker && !taken.includes(proposed)) {
+          for (const speaker of taken) {
+            if (speaker.name === proposed.name) {
+              takenBool = true;
+            }
+          } // added to substituted using .includes()
+
+          if (proposed.name !== speaker.name && !takenBool) { //add .name twice and add takenBool instead of .includes();
             unrandomized.push(proposed);
             taken.push(proposed);
           }
@@ -100,7 +109,7 @@
       };
 
       statementsObjSet = statementsObjTempSet.map((statementsObj) => {
-        statementsObj.answerSet = answerSet(statementsObj.speaker.name, allSpeakers);
+        statementsObj.answerSet = answerSet(statementsObj.speaker, allSpeakers); // .name
 
         let editedQuote = statementsObj.quote;
         editedQuote = editedQuote.replace('<p>','');
@@ -127,10 +136,10 @@
 
       // populate page with first quote
       $('#quote-text').text(statementsObjSet[0].quote);
-      $('#answer-1').text(statementsObjSet[0].answerSet[0]);
-      $('#answer-2').text(statementsObjSet[0].answerSet[1]);
-      $('#answer-3').text(statementsObjSet[0].answerSet[2]);
-      $('#answer-4').text(statementsObjSet[0].answerSet[3]);
+      $('#answer-1').text(statementsObjSet[0].answerSet[0].name);
+      $('#answer-2').text(statementsObjSet[0].answerSet[1].name);
+      $('#answer-3').text(statementsObjSet[0].answerSet[2].name);
+      $('#answer-4').text(statementsObjSet[0].answerSet[3].name);
     });
   };
 
@@ -190,10 +199,10 @@
 
   const nextQuestion = function() {
     $('#quote-text').text(statementsObjSet[quoteCount].quote);
-    $('#answer-1').text(statementsObjSet[quoteCount].answerSet[0]);
-    $('#answer-2').text(statementsObjSet[quoteCount].answerSet[1]);
-    $('#answer-3').text(statementsObjSet[quoteCount].answerSet[2]);
-    $('#answer-4').text(statementsObjSet[quoteCount].answerSet[3]);
+    $('#answer-1').text(statementsObjSet[quoteCount].answerSet[0].name);
+    $('#answer-2').text(statementsObjSet[quoteCount].answerSet[1].name);
+    $('#answer-3').text(statementsObjSet[quoteCount].answerSet[2].name);
+    $('#answer-4').text(statementsObjSet[quoteCount].answerSet[3].name);
     $('#politician').text('A politician said this.');
     $('#photo').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png');
     $('#result').text('');
@@ -251,6 +260,43 @@
       $('#quiz').addClass('off');
       $('#results').removeClass('off');
       buildResults();
+    }
+  });
+
+  $('.more-info').on('click', (event) => {
+    const $target = $(event.target);
+    console.log($target.hasClass('answer-1'));
+    const statement = statementsObjSet[quoteCount];
+    if ($target.hasClass('answer-1')) {
+      $('div .answer-1 .panel-photo').attr('src', statement.answerSet[0].photoUrl);
+      $('div .answer-1 .info-party').text('Party: ' + statement.answerSet[0].party);
+      $('div .answer-1 .info-position').text('Position: ' + statement.answerSet[0].position);
+      $('div .answer-1 .info-state').text('State: ' + statement.answerSet[0].state);
+      $('div.politician-panel.answer-1').toggleClass('off');
+    }
+
+    if ($target.hasClass('answer-2')) {
+      $('div .answer-2 .panel-photo').attr('src', statement.answerSet[1].photoUrl);
+      $('div .answer-2 .info-party').text('Party: ' + statement.answerSet[1].party);
+      $('div .answer-2 .info-position').text('Position: ' + statement.answerSet[1].position);
+      $('div .answer-2 .info-state').text('State: ' + statement.answerSet[1].state);
+      $('div.politician-panel.answer-2').toggleClass('off');
+    }
+
+    if ($target.hasClass('answer-3')) {
+      $('div .answer-3 .panel-photo').attr('src', statement.answerSet[2].photoUrl);
+      $('div .answer-3 .info-party').text('Party: ' + statement.answerSet[2].party);
+      $('div .answer-3 .info-position').text('Position: ' + statement.answerSet[2].position);
+      $('div .answer-3 .info-state').text('State: ' + statement.answerSet[2].state);
+      $('div.politician-panel.answer-3').toggleClass('off');
+    }
+
+    if ($target.hasClass('answer-4')) {
+      $('div .answer-4 .panel-photo').attr('src', statement.answerSet[3].photoUrl);
+      $('div .answer-4 .info-party').text('Party: ' + statement.answerSet[3].party);
+      $('div .answer-4 .info-position').text('Position: ' + statement.answerSet[3].position);
+      $('div .answer-4 .info-state').text('State: ' + statement.answerSet[3].state);
+      $('div.politician-panel.answer-4').toggleClass('off');
     }
   });
 
