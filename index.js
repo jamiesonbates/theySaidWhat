@@ -11,7 +11,7 @@
   const getStatements = function() {
     const $xhr = $.ajax({
       method: 'GET',
-      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=100&offset=0&format=json',
+      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=100&offset=0 &format=json',
       dataType: 'json'
     });
 
@@ -160,22 +160,29 @@
 
   const partOne = function($target) {
     const answer = $target.text();
+    const statement = statementsObjSet[quoteCount];
 
-    statementsObjSet[quoteCount].speakerGuess = answer;
+    statement.speakerGuess = answer;
 
-    if (statementsObjSet[quoteCount].speakerGuess === statementsObjSet[quoteCount].speaker.name) {
-      $('#result').text(`Correct! ${statementsObjSet[quoteCount].speaker.name} said this quote.`);
+    if (statement.speakerGuess === statement.speaker.name) {
+      $('#result').text(`Correct! ${statement.speaker.name} said this quote.`);
     };
 
-    if (statementsObjSet[quoteCount].speakerGuess !== statementsObjSet[quoteCount].speaker.name) {
-      $('#result').text(`Incorrect! ${statementsObjSet[quoteCount].speaker.name} said this quote.`);
+    if (statement.speakerGuess !== statement.speaker.name) {
+      $('#result').text(`Incorrect! ${statement.speaker.name} said this quote.`);
     };
 
     // Change photo
-    $('#photo').attr('src', statementsObjSet[quoteCount].speaker.photoUrl);
+    $('#photo').attr('src', statement.speaker.photoUrl);
 
     // Show Politician Name
-    $('#politician').text(statementsObjSet[quoteCount].speaker.name);
+    $('#politician').text(statement.speaker.name);
+
+    $('#position').text(statement.speaker.position);
+
+    $('#party').text(statement.speaker.party);
+
+    $('#state').text(statement.speaker.state);
 
     $('#prompt h2').text('Do you know how truthful the statement was?');
 
@@ -198,7 +205,7 @@
       $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[quoteCount].ruling}`);
     };
 
-    $('#prompt h2').text('Can you guess which politician said this?');
+    $('#prompt h2').text('');
 
     $('.tf-choices').toggleClass('off');
 
@@ -217,6 +224,7 @@
     $('#ruling').text('');
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
     $('#submit').addClass('off');
+    $('#prompt h2').text('Can you guess which politician said this?');
   };
 
   const buildResults = function() {
