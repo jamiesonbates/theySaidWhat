@@ -23,6 +23,8 @@
       const parties = ['Republican', 'Democrat', 'Independent', 'Libertarian', 'Green'];
 
       const statementsInclusive = data.objects.map((statement) => {
+        // console.log(statement.statement);
+
         if (parties.includes(statement.speaker.party.party) && statement.speaker.first_name !== '') {
           const statementObj = {
             quote: statement.statement,
@@ -97,6 +99,26 @@
 
       statementsObjSet = statementsObjTempSet.map((statementsObj) => {
         statementsObj.answerSet = answerSet(statementsObj.speaker.name, allSpeakers);
+
+        let editedQuote = statementsObj.quote;
+        editedQuote = editedQuote.replace('<p>','');
+        editedQuote = editedQuote.replace('</p>','');
+        editedQuote = editedQuote.replace('<div>','');
+        editedQuote = editedQuote.replace('</div>','');
+        editedQuote = editedQuote.replace(/(&quot;)/g, '"');
+        editedQuote = editedQuote.replace(/(&rsquo;)/g, "'");
+        editedQuote = editedQuote.replace(/(&#39;)/g, "'");
+        // const re1 = new RegExp(/(<p>";<\/p>)/,'g');
+        // editedQuote = editedQuote.replace(re1,'');
+        // const re = /(<div dir="ltr">";)/g;
+        // editedQuote = editedQuote.replace(re,'');
+        editedQuote = editedQuote.replace('&nbsp;', ' ');
+        editedQuote = editedQuote.replace('&hellip;',  '...');
+        editedQuote = editedQuote.replace('&amp;', '&');
+        editedQuote = editedQuote.replace('<br />', ' ');
+
+        statementsObj.quote = `${editedQuote}`;
+        console.log(statementsObj.quote);
 
         return statementsObj;
       });
