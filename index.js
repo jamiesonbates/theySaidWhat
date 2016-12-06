@@ -140,20 +140,6 @@
 //
 // -----------------------------------------------------------------------------
   let quoteCount = 0;
-  let politicianSelected = false;
-  let truthSelected = false;
-
-  $('.politician-guess').on('click', (event) => {
-    $('.selected').toggleClass('purple selected');
-    $(event.target).toggleClass('purple selected');
-    politicianSelected = !politicianSelected;
-  });
-
-  $('.truth-guess').on('click', (event) => {
-    $('.selected').toggleClass('purple selected');
-    $(event.target).toggleClass('purple selected');
-    truthSelected = !truthSelected;
-  });
 
   const partOne = function($target) {
     const answer = $target.text();
@@ -197,7 +183,7 @@
 
     $('.tf-choices').toggleClass('off');
 
-    $('#submit p').text('Next Question');
+    $('#submit').removeClass('off');
   };
 
   const nextQuestion = function() {
@@ -211,10 +197,7 @@
     $('#result').text('');
     $('#ruling').text('');
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
-
-    if (quoteCount < 10) {
-      $('#submit p').text('Submit');
-    }
+    $('#submit').addClass('off');
   };
 
   const buildResults = function() {
@@ -243,34 +226,23 @@
   let stepOneComplete = false;
   let stepTwoComplete = false;
 
-  $('#submit').on('click', () => {
-    const $target = $('.selected');
+  $('.select').on('click', () => {
+    const $target = $(event.target);
 
     if (!stepOneComplete && !stepTwoComplete) {
-      if (!politicianSelected) {
-        return;
-      }
       partOne($target);
       stepOneComplete = true;
     }
     else if (stepOneComplete && !stepTwoComplete) {
-      if (!truthSelected) {
-        return;
-      }
       partTwo($target);
       stepTwoComplete = true;
       quoteCount += 1;
-
-      if (quoteCount === 10) {
-        $('#submit p').text('See Results');
-      }
     }
     else if (stepOneComplete && stepTwoComplete && quoteCount < 10) {
+      console.log('here');
       nextQuestion();
       stepOneComplete = false;
       stepTwoComplete = false;
-      politicianSelected = !politicianSelected;
-      truthSelected = !truthSelected;
       $('.p-choices').toggleClass('off');
     }
     else if (quoteCount === 10) {
@@ -278,8 +250,6 @@
       $('#results').removeClass('off');
       buildResults();
     }
-
-    $('.selected').toggleClass('purple selected');
   });
 
 
