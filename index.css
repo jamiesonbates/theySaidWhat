@@ -50,13 +50,18 @@ main .container {
 }
 
 #question {
-  height: 75%;
+  height: 70%;
   display: flex;
   align-items: center;
 }
 
+#question .row {
+  height: 100%;
+  margin-bottom: 0;
+}
+
 #answer {
-  height: 50%;
+  height: 30%;
   display: flex;
   align-items: center;
 }
@@ -90,15 +95,30 @@ main .container {
 
 .choices {
   height: 10%;
-}
-
-.off {
-  display: none;
+  margin-bottom: 0;
 }
 
 .p-choices .btn {
-  height: 75px;
+  height: 50px;
   width: 250px;
+  display: flex;
+  flex-direction: row;
+}
+
+.politician-guess {
+  height: 100%;
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.more-info {
+  height: 100%;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tf-choices .btn {
@@ -108,25 +128,35 @@ main .container {
 
 .choices .btn {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0;
 }
 
 .choices-list {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.politician-info .col {
+  display: flex;
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
-.choices-list .btn {
-  margin-right: 1%;
+.politician-panel {
+  height: 150px;
+  width: 200px;
+  box-shadow: 0 1px 1px 1px gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.choices-list .btn {
-  margin-left: 1%;
+.politician-panel p {
+  margin: 2px;
 }
-
 
 footer .page-footer {
   margin: 0;
@@ -134,4 +164,8 @@ footer .page-footer {
 
 .selected {
   background-color: #4caf50;
+}
+
+.off {
+  display: none;
 }

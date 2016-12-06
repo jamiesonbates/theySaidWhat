@@ -20,6 +20,8 @@
         return;
       }
 
+      console.log(data);
+
       const parties = ['Republican', 'Democrat', 'Independent', 'Libertarian', 'Green'];
 
       const statementsInclusive = data.objects.map((statement) => {
@@ -118,7 +120,7 @@
         editedQuote = editedQuote.replace('<br />', ' ');
 
         statementsObj.quote = `${editedQuote}`;
-        console.log(statementsObj.quote);
+        // console.log(statementsObj.quote);
 
         return statementsObj;
       });
