@@ -16,10 +16,6 @@ main .container {
   height: 100%;
 }
 
-#prompt {
-  height:
-}
-
 #quote {
   height: 40%;
   box-shadow: 0 2px 3px 1px gray;
@@ -61,16 +57,27 @@ main .container {
   width: 100%;
 }
 
+#prompt h2 {
+  font-size: 1.5em;
+  margin: 3% 0 0 0;
+}
+
 #quote-tracker {
-  height: 5%;
+  height: 10%;
 }
 
 #quote-count {
+  margin-top: 0;
   margin-bottom: 5px;
 }
 
+#submit {
+  height: 50px;
+  width: 200px;
+}
 #submit p {
   margin: 0;
+  font-size: 1.2em;
 }
 
 .choices {
@@ -82,8 +89,8 @@ main .container {
 }
 
 .p-choices .btn {
-  height: 75px;
-  width: 300px;
+  height: 50px;
+  width: 200px;
 }
 
 .tf-choices .btn {
@@ -104,11 +111,11 @@ main .container {
   justify-content: center;
 }
 
-.choices-list li {
+.choices-list .btn {
   margin-right: 1%;
 }
 
-.choices-list li {
+.choices-list .btn {
   margin-left: 1%;
 }
 
