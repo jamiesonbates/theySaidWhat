@@ -31,6 +31,7 @@
           const statementObj = {
             quote: (statement.statement).trim(),
             date: statement.statement_date,
+            statementContext: statement.statement_context,
             statement_url: `http://www.politifact.com${statement.canonical_url}`,
             ruling: statement.ruling.ruling,
             speaker: {
@@ -142,6 +143,7 @@
 
       // populate page with first quote
       $('#quote-text').text(statementsObjSet[0].quote);
+      $('#context').text(`Said in ${statementsObjSet[0].statementContext} on ${statementsObjSet[0].date}.`);
       $('#answer-1').text(statementsObjSet[0].answerSet[0].name);
       $('#answer-2').text(statementsObjSet[0].answerSet[1].name);
       $('#answer-3').text(statementsObjSet[0].answerSet[2].name);
@@ -225,6 +227,7 @@
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
     $('#submit').addClass('off');
     $('#prompt h2').text('Can you guess which politician said this?');
+    $('#context').text(`Said in ${statementsObjSet[quoteCount]} on ${statementsObjSet[quoteCount].date}.`);
   };
 
   const buildResults = function() {

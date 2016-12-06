@@ -49,6 +49,10 @@ main .container {
   font-size: 1.4em;
 }
 
+#context {
+  font-style: italic;
+}
+
 #question {
   height: 90%;
   display: flex;
