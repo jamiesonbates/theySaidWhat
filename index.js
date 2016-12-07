@@ -11,7 +11,7 @@
   const getStatements = function() {
     const $xhr = $.ajax({
       method: 'GET',
-      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=100&offset=0 &format=json',
+      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=200&offset=0 &format=json',
       dataType: 'json'
     });
 
@@ -20,12 +20,9 @@
         return;
       }
 
-      console.log(data);
-
       const parties = ['Republican', 'Democrat', 'Independent', 'Libertarian', 'Green'];
 
       const statementsInclusive = data.objects.map((statement) => {
-        // console.log(statement.statement);
 
         if (parties.includes(statement.speaker.party.party) && statement.speaker.first_name !== '') {
           const statementObj = {
@@ -58,10 +55,11 @@
 
       while (statementsIndex.length < 10) {
         const randomNumber = Math.floor(Math.random() * statementsLength);
+
         if (!statementsIndex.includes(randomNumber)) {
           statementsIndex.push(randomNumber);
         }
-      };
+      }
 
       const statementsObjTempSet = statements.filter((statement, index) => {
         if (statementsIndex.includes(index)) {
@@ -84,14 +82,13 @@
           const proposed = speakersGroup[randomI];
           let takenBool = false;
 
-          for (const speaker of taken) {
-            if (speaker.name === proposed.name) {
+          for (const speakerObj of taken) {
+            if (speakerObj.name === proposed.name) {
               takenBool = true;
             }
-          } // added to substituted using .includes()
+          }
 
-          if (proposed.name !== speaker.name && !takenBool) { //add .name twice and add takenBool instead of .includes();
-            unrandomized.push(proposed);
+          if (proposed.name !== speaker.name && !takenBool) {
             taken.push(proposed);
           }
         }
@@ -115,11 +112,12 @@
         statementsObj.answerSet = answerSet(statementsObj.speaker, allSpeakers); // .name
 
         let editedQuote = statementsObj.quote;
-        editedQuote = editedQuote.replace('<p>','');
-        editedQuote = editedQuote.replace('</p>','');
-        editedQuote = editedQuote.replace('<div>','');
-        editedQuote = editedQuote.replace('<div>','');
-        editedQuote = editedQuote.replace('</div>','');
+
+        editedQuote = editedQuote.replace('<p>', '');
+        editedQuote = editedQuote.replace('</p>', '');
+        editedQuote = editedQuote.replace('<div>', '');
+        editedQuote = editedQuote.replace('<div>', '');
+        editedQuote = editedQuote.replace('</div>', '');
         editedQuote = editedQuote.replace(/(&quot;)/g, '"');
         editedQuote = editedQuote.replace(/(&rsquo;)/g, "'");
         editedQuote = editedQuote.replace(/(&#39;)/g, "'");
@@ -127,18 +125,12 @@
         editedQuote = editedQuote.replace(/(&nbsp;<\/div>)/g, '');
         editedQuote = editedQuote.replace(/(<p> <\/p>)/g, '');
         editedQuote = editedQuote.replace(/(<p>&nbsp;<\/p>)/g, '');
-
-        // const re1 = new RegExp(/(<p>";<\/p>)/,'g');
-        // editedQuote = editedQuote.replace(re1,'');
-        // const re = /(<div dir="ltr">";)/g;
-        // editedQuote = editedQuote.replace(re,'');
         editedQuote = editedQuote.replace('&nbsp;', ' ');
-        editedQuote = editedQuote.replace('&hellip;',  '...');
+        editedQuote = editedQuote.replace('&hellip;', '...');
         editedQuote = editedQuote.replace('&amp;', '&');
         editedQuote = editedQuote.replace('<br />', ' ');
 
         statementsObj.quote = `${editedQuote}`;
-        console.log(statementsObj.quote);
 
         return statementsObj;
       });
@@ -170,11 +162,11 @@
 
     if (statement.speakerGuess === statement.speaker.name) {
       $('#result').text(`Correct! ${statement.speaker.name} said this quote.`);
-    };
+    }
 
     if (statement.speakerGuess !== statement.speaker.name) {
       $('#result').text(`Incorrect! ${statement.speaker.name} said this quote.`);
-    };
+    }
 
     // Change photo
     $('#photo').attr('src', statement.speaker.photoUrl);
@@ -203,18 +195,20 @@
 
     if (statementsObjSet[quoteCount].truthGuess === statementsObjSet[quoteCount].ruling) {
       $('#ruling').text(`Correct! The statement is ${statementsObjSet[quoteCount].ruling}`);
-    };
+    }
 
     if (statementsObjSet[quoteCount].truthGuess !== statementsObjSet[quoteCount].ruling) {
       $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[quoteCount].ruling}`);
-    };
+    }
 
     $('#prompt h2').text('');
 
     $('#truth-photo').removeClass('off');
-    $('#truth-photo').attr('src',statementsObjSet[quoteCount].rulingGraphic);
+    $('#truth-photo').attr('src', statementsObjSet[quoteCount].rulingGraphic);
     $('#summary-header').removeClass('off');
     $('#ruling-summary').text(statementsObjSet[quoteCount].rulingSummary);
+    $('#source').removeClass('off');
+    $('#source').attr('href', statementsObjSet[quoteCount].statementUrl);
 
     $('.tf-choices').toggleClass('off');
 
@@ -222,11 +216,13 @@
   };
 
   const nextQuestion = function() {
-    $('#quote-text').text(statementsObjSet[quoteCount].quote);
-    $('#answer-1').text(statementsObjSet[quoteCount].answerSet[0].name);
-    $('#answer-2').text(statementsObjSet[quoteCount].answerSet[1].name);
-    $('#answer-3').text(statementsObjSet[quoteCount].answerSet[2].name);
-    $('#answer-4').text(statementsObjSet[quoteCount].answerSet[3].name);
+    const statement = statementsObjSet[quoteCount];
+
+    $('#quote-text').text(statement.quote);
+    $('#answer-1').text(statement.answerSet[0].name);
+    $('#answer-2').text(statement.answerSet[1].name);
+    $('#answer-3').text(statement.answerSet[2].name);
+    $('#answer-4').text(statement.answerSet[3].name);
     $('#politician').text('A politician said this.');
     $('#photo').attr('src', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png');
     $('#result').text('');
@@ -234,14 +230,15 @@
     $('#quote-count').text(`Quote ${quoteCount + 1} of 10`);
     $('#submit').addClass('off');
     $('#prompt h2').text('Can you guess which politician said this?');
-    $('#context').text(`Said in ${statementsObjSet[quoteCount].statementContext}.`);
+    $('#context').text(`Said in ${statement.statementContext}.`);
     $('#truth-photo').addClass('off');
     $('#summary-header').addClass('off');
+    $('#ruling-summary').addClass('off');
+    $('#source').addClass('off');
   };
 
   const buildResults = function() {
     for (const statement of statementsObjSet) {
-      console.log(statement);
       const $tr = $('<tr>');
 
       const $tdName = $('<td>').text(statement.speaker.name);
@@ -260,7 +257,7 @@
 
       $('tbody').append($tr);
     }
-  }
+  };
 
   let stepOneComplete = false;
   let stepTwoComplete = false;
@@ -278,7 +275,6 @@
       quoteCount += 1;
     }
     else if (stepOneComplete && stepTwoComplete && quoteCount < 10) {
-      console.log('here');
       nextQuestion();
       stepOneComplete = false;
       stepTwoComplete = false;
@@ -293,8 +289,8 @@
 
   $('.more-info').on('click', (event) => {
     const $target = $(event.target);
-    console.log($target.hasClass('answer-1'));
     const statement = statementsObjSet[quoteCount];
+
     if ($target.hasClass('answer-1')) {
       $('div .answer-1 .panel-photo').attr('src', statement.answerSet[0].photoUrl);
       $('div .answer-1 .info-party').text('Party: ' + statement.answerSet[0].party);
@@ -327,8 +323,4 @@
       $('div.politician-panel.answer-4').toggleClass('off');
     }
   });
-
-
 })();
-
-$('#modal1').modal('open');
