@@ -141,7 +141,7 @@ main .container {
 
 .politician-guess {
   height: 100%;
-  width: 85%;
+  width: 75%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,7 +149,7 @@ main .container {
 
 .more-info {
   height: 100%;
-  width: 15%;
+  width: 25%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -213,4 +213,14 @@ footer .page-footer {
 
 .off {
   display: none;
+}
+
+.results {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.collapsible-body p {
+  padding: 1rem;
 }

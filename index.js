@@ -89,6 +89,7 @@
           }
 
           if (proposed.name !== speaker.name && !takenBool) {
+            unrandomized.push(proposed);
             taken.push(proposed);
           }
         }
@@ -109,7 +110,7 @@
       };
 
       statementsObjSet = statementsObjTempSet.map((statementsObj) => {
-        statementsObj.answerSet = answerSet(statementsObj.speaker, allSpeakers); // .name
+        statementsObj.answerSet = answerSet(statementsObj.speaker, allSpeakers);
 
         let editedQuote = statementsObj.quote;
 
@@ -235,27 +236,40 @@
     $('#summary-header').addClass('off');
     $('#ruling-summary').addClass('off');
     $('#source').addClass('off');
+    $('#position').text('');
+    $('#party').text('');
+    $('#state').text('');
   };
 
   const buildResults = function() {
+    let countQuotes = 1;
     for (const statement of statementsObjSet) {
-      const $tr = $('<tr>');
+      const $ul = $('.results-list');
+      const $li = $('<li>');
+      const $divI = $('<div>').addClass('collapsible-header');
+      const $icon = $('<i>').addClass('material-icons');
+      $icon.text('add')
+      $divI.text(`Quote ${countQuotes} - ${statement.speaker.name}`);
+      $divI.append($icon);
+      const $divP = $('<div>').addClass('collapsible-body');
+      const $divHead = $('<div>').addClass('results');
+      const $photo = $('<img>').attr('src', statement.speaker.photoUrl);
+      const $speaker = $('<p>').text(`${statement.speaker.name} is a  ${statement.speaker.party} and ${statement.speaker.position}.`);
+      const $quote = $('<p>').text('Statement: ' + statement.quote);
+      const $yourGuesses = $('<p>').text(`You thought ${statement.speakerGuess} said this and guessed that it was ${statement.truthGuess}.`);
+      const $truth = $('<p>').text(`This statement was ${statement.ruling}`);
 
-      const $tdName = $('<td>').text(statement.speaker.name);
-      const $tdParty = $('<td>').text(statement.speaker.party);
-      const $tdQuote = $('<td>').text(statement.quote);
-      const $tdRuling = $('<td>').text(statement.ruling);
-      const $tdSpeaker = $('<td>').text(statement.speakerGuess);
-      const $tdTruth = $('<td>').text(statement.truthGuess);
+      $li.append($divI);
+      $divHead.append($photo);
+      $divHead.append($speaker);
+      $divP.append($divHead);
+      $divP.append($quote);
+      $divP.append($yourGuesses);
+      $divP.append($truth);
+      $li.append($divP);
+      $ul.append($li);
 
-      $tr.append($tdName);
-      $tr.append($tdParty);
-      $tr.append($tdQuote);
-      $tr.append($tdRuling);
-      $tr.append($tdSpeaker);
-      $tr.append($tdTruth);
-
-      $('tbody').append($tr);
+      countQuotes += 1;
     }
   };
 
@@ -289,37 +303,37 @@
 
   $('.more-info').on('click', (event) => {
     const $target = $(event.target);
-    const statement = statementsObjSet[quoteCount];
+    const stmt = statementsObjSet[quoteCount];
 
     if ($target.hasClass('answer-1')) {
-      $('div .answer-1 .panel-photo').attr('src', statement.answerSet[0].photoUrl);
-      $('div .answer-1 .info-party').text('Party: ' + statement.answerSet[0].party);
-      $('div .answer-1 .info-position').text('Position: ' + statement.answerSet[0].position);
-      $('div .answer-1 .info-state').text('State: ' + statement.answerSet[0].state);
+      $('div .answer-1 .panel-photo').attr('src', stmt.answerSet[0].photoUrl);
+      $('div .answer-1 .info-party').text('Party: ' + stmt.answerSet[0].party);
+      $('div .answer-1 .info-position').text('Position: ' + stmt.answerSet[0].position);
+      $('div .answer-1 .info-state').text('State: ' + stmt.answerSet[0].state);
       $('div.politician-panel.answer-1').toggleClass('off');
     }
 
     if ($target.hasClass('answer-2')) {
-      $('div .answer-2 .panel-photo').attr('src', statement.answerSet[1].photoUrl);
-      $('div .answer-2 .info-party').text('Party: ' + statement.answerSet[1].party);
-      $('div .answer-2 .info-position').text('Position: ' + statement.answerSet[1].position);
-      $('div .answer-2 .info-state').text('State: ' + statement.answerSet[1].state);
+      $('div .answer-2 .panel-photo').attr('src', stmt.answerSet[1].photoUrl);
+      $('div .answer-2 .info-party').text('Party: ' + stmt.answerSet[1].party);
+      $('div .answer-2 .info-position').text('Position: ' + stmt.answerSet[1].position);
+      $('div .answer-2 .info-state').text('State: ' + stmt.answerSet[1].state);
       $('div.politician-panel.answer-2').toggleClass('off');
     }
 
     if ($target.hasClass('answer-3')) {
-      $('div .answer-3 .panel-photo').attr('src', statement.answerSet[2].photoUrl);
-      $('div .answer-3 .info-party').text('Party: ' + statement.answerSet[2].party);
-      $('div .answer-3 .info-position').text('Position: ' + statement.answerSet[2].position);
-      $('div .answer-3 .info-state').text('State: ' + statement.answerSet[2].state);
+      $('div .answer-3 .panel-photo').attr('src', stmt.answerSet[2].photoUrl);
+      $('div .answer-3 .info-party').text('Party: ' + stmt.answerSet[2].party);
+      $('div .answer-3 .info-position').text('Position: ' + stmt.answerSet[2].position);
+      $('div .answer-3 .info-state').text('State: ' + stmt.answerSet[2].state);
       $('div.politician-panel.answer-3').toggleClass('off');
     }
 
     if ($target.hasClass('answer-4')) {
-      $('div .answer-4 .panel-photo').attr('src', statement.answerSet[3].photoUrl);
-      $('div .answer-4 .info-party').text('Party: ' + statement.answerSet[3].party);
-      $('div .answer-4 .info-position').text('Position: ' + statement.answerSet[3].position);
-      $('div .answer-4 .info-state').text('State: ' + statement.answerSet[3].state);
+      $('div .answer-4 .panel-photo').attr('src', stmt.answerSet[3].photoUrl);
+      $('div .answer-4 .info-party').text('Party: ' + stmt.answerSet[3].party);
+      $('div .answer-4 .info-position').text('Position: ' + stmt.answerSet[3].position);
+      $('div .answer-4 .info-state').text('State: ' + stmt.answerSet[3].state);
       $('div.politician-panel.answer-4').toggleClass('off');
     }
   });
