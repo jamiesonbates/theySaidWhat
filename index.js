@@ -183,10 +183,12 @@
 
     if (statement.user.speakerGuess === statement.speaker.name) {
       $('#result').text(`Correct! ${statement.speaker.name} said this quote.`);
+      statement.user.speakerGuessCorrect = true;
     }
 
     if (statement.user.speakerGuess !== statement.speaker.name) {
       $('#result').text(`Incorrect! ${statement.speaker.name} said this quote.`);
+      statement.user.speakerGuessCorrect = false;
     }
 
     // Change photo
@@ -211,15 +213,22 @@
 
   const partTwo = function($target) {
     const answer = $target.text();
+    const guessOptions = ['True', 'Mostly True', 'Half True', 'Mostly False', 'False', 'Pants on Fire'];
 
     statementsObjSet[setCount].user.truthGuess = answer;
 
     if (statementsObjSet[setCount].user.truthGuess === statementsObjSet[setCount].ruling.ruling) {
       $('#ruling').text(`Correct! The statement is ${statementsObjSet[setCount].ruling.ruling}`);
+      statementsObjSet[setCount].user.truthGuessCorrect = true;
     }
 
     if (statementsObjSet[setCount].user.truthGuess !== statementsObjSet[setCount].ruling.ruling) {
       $('#ruling').text(`Incorrect! The statement is actually ${statementsObjSet[setCount].ruling.ruling}`);
+      statementsObjSet[setCount].user.truthGuessCorrect = false;
+      const indexCorrect = guessOptions.indexOf(statementsObjSet[setCount].ruling.ruling);
+      const indexGuess = guessOptions.indexOf(statementsObjSet[setCount].user.truthGuess);
+
+      statementsObjSet[setCount].user.truthGuessDifference = Math.abs(indexCorrect - indexGuess);
     }
 
     $('#prompt h2').text('');
