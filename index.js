@@ -231,7 +231,7 @@
       statementsObjSet[setCount].user.truthGuessDifference = Math.abs(indexCorrect - indexGuess);
     }
 
-    $('#prompt h2').text('');
+    $('#prompt').addClass('off');
 
     $('#truth-photo').removeClass('off');
     $('#truth-photo').attr('src', statementsObjSet[setCount].ruling.rulingGraphic);
@@ -263,6 +263,7 @@
     $('#ruling').text('');
     $('#quote-count').text(`Quote ${quoteCount} of ${allStatementsUrl.length}`);
     $('#submit').addClass('off');
+    $('#prompt').removeClass('off');
     $('#prompt h2').text('Can you guess which politician said this?');
     $('#context').text(`Said in ${statement.statement.statementContext}.`);
     $('#truth-photo').addClass('off');
@@ -275,6 +276,9 @@
     stepOneComplete = false;
     stepTwoComplete = false;
     $('.p-choices').toggleClass('off');
+    $('#question-results').addClass('off');
+    $('#truth-question').addClass('off');
+    $('#politician-question').addClass('off');
   };
 
   const countPoliticiansCorrect = function() {
@@ -695,10 +699,13 @@
 
     if (!stepOneComplete && !stepTwoComplete) {
       partOne($target);
+      renderPoliticianResults();
       stepOneComplete = true;
+
     }
     else if (stepOneComplete && !stepTwoComplete) {
       partTwo($target);
+      renderTruthResults();
       stepTwoComplete = true;
       setCount += 1;
       updateGameStatus();
@@ -781,6 +788,46 @@
       $div.css('border-right', '1px solid white');
       $div.addClass('status-bar');
       $status.append($div);
+    }
+  }
+
+  const renderPoliticianResults = function() {
+    const currentQuestion = allStatementsData[setCount];
+    console.log(currentQuestion);
+
+    $('#question-results').removeClass('off');
+    $('#politician-question').removeClass('off');
+
+    if (currentQuestion.user.speakerGuessCorrect === true) {
+      $('#politician-result').text('Correct!');
+      $('#politician-answer').text(`You correctly guessed ${currentQuestion.user.speakerGuess}!`)
+    }
+
+    if (currentQuestion.user.speakerGuessCorrect === false) {
+      $('#politician-result').text('Incorrect.')
+      $('#politician-answer').text(`You incorrectly guessed ${currentQuestion.user.speakerGuess}.`);
+    }
+  }
+
+  const renderTruthResults = function() {
+    const currentQuestion = allStatementsData[setCount];
+    console.log(currentQuestion);
+
+    $('#truth-question').removeClass('off');
+
+    if (currentQuestion.user.truthGuessCorrect === true) {
+      $('#truth-result').text('Correct!');
+      $('#truth-answer').text(`You correctly guessed ${currentQuestion.user.truthGuess}!`);
+    }
+
+    if (currentQuestion.user.truthGuessDifference === 1) {
+      $('#truth-result').text('Incorrect, but close!');
+      $('#truth-answer').text(`You incorrectly guessed ${currentQuestion.user.truthGuess}, but you were within one!`);
+    }
+
+    if (currentQuestion.user.truthGuessDifference > 1) {
+      $('#truth-result').text('Incorrect.');
+      $('#truth-answer').text(`You incorrectly guessed ${currentQuestion.user.truthGuess}.`);
     }
   }
 })();
