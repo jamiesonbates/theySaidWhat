@@ -415,49 +415,49 @@
     return questionResults;
   }
 
-  const mostSuccessPolitician = function() {
-    const speakerArray = [];
-    const statementArray = [];
-
-    for (const statement of allStatementsData) {
-      statementArray.push(statement);
-    }
-
-    for (const statement of allStatementsData) {
-      speakerArray.push(statement.speaker.name);
-    }
-
-    console.log(statementArray);
-    const speakerStatements = statementArray.map((statement) => {
-      const statements = [];
-
-      for (const speaker of speakerArray) {
-        if (statement.speaker.name === speaker) {
-          statements.push(statement);
-        }
-      }
-      return statements;
-    });
-
-    const percentCorrect = speakerStatements.map((array) => {
-      let count = 0;
-
-      for (const value of array) {
-        if (value.user.speakerGuessCorrect === true) {
-          count += 1;
-        }
-      }
-      return count / array.length;
-    });
-
-    const max = Math.max(...percentCorrect);
-
-    const index = percentCorrect.indexOf(max);
-
-    console.log(percentCorrect[index]);
-    console.log(speakerStatements[index]);
-    return speakerStatements[index];
-  }
+  // const mostSuccessPolitician = function() {
+  //   const speakerArray = [];
+  //   const statementArray = [];
+  //
+  //   for (const statement of allStatementsData) {
+  //     statementArray.push(statement);
+  //   }
+  //
+  //   for (const statement of allStatementsData) {
+  //     speakerArray.push(statement.speaker.name);
+  //   }
+  //
+  //   console.log(statementArray);
+  //   const speakerStatements = statementArray.map((statement) => {
+  //     const statements = [];
+  //
+  //     for (const speaker of speakerArray) {
+  //       if (statement.speaker.name === speaker) {
+  //         statements.push(statement);
+  //       }
+  //     }
+  //     return statements;
+  //   });
+  //
+  //   const percentCorrect = speakerStatements.map((array) => {
+  //     let count = 0;
+  //
+  //     for (const value of array) {
+  //       if (value.user.speakerGuessCorrect === true) {
+  //         count += 1;
+  //       }
+  //     }
+  //     return count / array.length;
+  //   });
+  //
+  //   const max = Math.max(...percentCorrect);
+  //
+  //   const index = percentCorrect.indexOf(max);
+  //
+  //   console.log(percentCorrect[index]);
+  //   console.log(speakerStatements[index]);
+  //   return speakerStatements[index];
+  // }
 
   const buildStageTwo = function() {
     const mostSeen = mostSeenPolitician();
@@ -489,34 +489,34 @@
     }
     $mostSeenAnswers.append($mostSeenColors);
 
-    const mostSuccess = mostSuccessPolitician();
-    console.log(mostSuccess);
-    $('#success-photo').attr('src', mostSuccess[0].speaker.photoUrl);
-    $('#success-name').text(mostSuccess[0].speaker.name);
-    $('#success-party').text(mostSuccess[0].speaker.party);
-    const divWidthSuccess = 100 / mostSuccess.length;
-    const $mostSuccessAnswers = $('#most-success');
-
-    const $mostSuccessColors = $('<div>');
-    $mostSuccessColors.css('width', '100%');
-    $mostSuccessColors.css('height', '50%');
-
-    for (const statement of mostSuccess) {
-      const $mostSuccessColor = $('<div>').css('display', 'inline-block');
-      $mostSuccessColor.css('border-right', '1px solid white');
-      $mostSuccessColor.css('width', (divWidthSuccess + '%'));
-      $mostSuccessColor.css('height', '20px');
-
-      if (statement.user.speakerGuessCorrect === true) {
-        $mostSuccessColor.addClass('green-correct');
-      }
-
-      if (statement.user.speakerGuessCorrect === false) {
-        $mostSuccessColor.addClass('red-incorrect');
-      }
-      $mostSuccessColors.append($mostSuccessColor);
-    }
-    $mostSuccessAnswers.append($mostSuccessColors);
+    // const mostSuccess = mostSuccessPolitician();
+    // console.log(mostSuccess);
+    // $('#success-photo').attr('src', mostSuccess[0].speaker.photoUrl);
+    // $('#success-name').text(mostSuccess[0].speaker.name);
+    // $('#success-party').text(mostSuccess[0].speaker.party);
+    // const divWidthSuccess = 100 / mostSuccess.length;
+    // const $mostSuccessAnswers = $('#most-success');
+    //
+    // const $mostSuccessColors = $('<div>');
+    // $mostSuccessColors.css('width', '100%');
+    // $mostSuccessColors.css('height', '50%');
+    //
+    // for (const statement of mostSuccess) {
+    //   const $mostSuccessColor = $('<div>').css('display', 'inline-block');
+    //   $mostSuccessColor.css('border-right', '1px solid white');
+    //   $mostSuccessColor.css('width', (divWidthSuccess + '%'));
+    //   $mostSuccessColor.css('height', '20px');
+    //
+    //   if (statement.user.speakerGuessCorrect === true) {
+    //     $mostSuccessColor.addClass('green-correct');
+    //   }
+    //
+    //   if (statement.user.speakerGuessCorrect === false) {
+    //     $mostSuccessColor.addClass('red-incorrect');
+    //   }
+    //   $mostSuccessColors.append($mostSuccessColor);
+    // }
+    // $mostSuccessAnswers.append($mostSuccessColors);
   }
 
   const partyDifferences = function() {
@@ -541,8 +541,117 @@
 
   const buildStageThree = function() {
     const partyDiffArray = partyDifferences();
+    const dem = partyDiffArray[0];
+    const divWidthDem = 100 / dem.length;
+    const rep = partyDiffArray[1];
+    const divWidthRep = 100 / rep.length;
+    const third = partyDiffArray[2];
+    const divWidthThird = 100 / third.length;
 
-    
+    const demCorrect = [];
+    const demIncorrect = [];
+
+    for (const statement of dem) {
+      if (statement.user.speakerGuessCorrect === true) {
+        demCorrect.push(statement);
+      }
+      else {
+        demIncorrect.push(statement);
+      }
+    }
+
+    const repCorrect = [];
+    const repIncorrect = [];
+
+    for (const statement of rep) {
+      if (statement.user.speakerGuessCorrect === true) {
+        repCorrect.push(statement);
+      }
+      else {
+        repIncorrect.push(statement);
+      }
+    }
+
+    const thirdCorrect = [];
+    const thirdIncorrect = [];
+
+    for (const statement of third) {
+      if (statement.user.speakerGuessCorrect === true) {
+        thirdCorrect.push(statement);
+      }
+      else {
+        thirdIncorrect.push(statement);
+      }
+    }
+
+    $('#party-intro-dem').text(`You guessed Democrats correctly ${demCorrect.length} times out of ${dem.length}`);
+    const $demAnswers = $('#party-results-dem');
+    const $demColors = $('<div>');
+    $demColors.css('width', '100%');
+    $demColors.css('height', '50%');
+
+    for (const statement of dem) {
+      const $demColor = $('<div>').css('display', 'inline-block');
+      $demColor.css('border-right', '1px solid white');
+      $demColor.css('width', (divWidthDem + '%'));
+      $demColor.css('height', '20px');
+
+      if (statement.user.speakerGuessCorrect === true) {
+        $demColor.addClass('green-correct');
+      }
+
+      if (statement.user.speakerGuessCorrect === false) {
+        $demColor.addClass('red-incorrect');
+      }
+      $demColors.append($demColor);
+    }
+    $demAnswers.append($demColors);
+
+    $('#party-intro-rep').text(`You guessed Republicans correctly ${repCorrect.length} times out of ${rep.length}`);
+    const $repAnswers = $('#party-results-rep');
+    const $repColors = $('<div>');
+    $repColors.css('width', '100%');
+    $repColors.css('height', '50%');
+
+    for (const statement of rep) {
+      const $repColor = $('<div>').css('display', 'inline-block');
+      $repColor.css('border-right', '1px solid white');
+      $repColor.css('width', (divWidthRep + '%'));
+      $repColor.css('height', '20px');
+
+      if (statement.user.speakerGuessCorrect === true) {
+        $repColor.addClass('green-correct');
+      }
+
+      if (statement.user.speakerGuessCorrect === false) {
+        $repColor.addClass('red-incorrect');
+      }
+      $repColors.append($repColor);
+    }
+    $repAnswers.append($repColors);
+
+    $('#party-intro-third').text(`You guessed Third Parties correctly ${thirdCorrect.length} times out of ${third.length}`);
+    const $thirdAnswers = $('#party-results-third');
+    const $thirdColors = $('<div>');
+    $thirdColors.css('width', '100%');
+    $thirdColors.css('height', '50%');
+
+    for (const statement of third) {
+      const $thirdColor = $('<div>').css('display', 'inline-block');
+      $thirdColor.css('border-right', '1px solid white');
+      $thirdColor.css('width', (divWidthThird + '%'));
+      $thirdColor.css('height', '20px');
+
+      if (statement.user.speakerGuessCorrect === true) {
+        $thirdColor.addClass('green-correct');
+      }
+
+      if (statement.user.speakerGuessCorrect === false) {
+        $thirdColor.addClass('red-incorrect');
+      }
+      $thirdColors.append($thirdColor);
+    }
+    $thirdAnswers.append($thirdColors);
   }
 
   const buildResultsAccordion = function() {
@@ -606,6 +715,7 @@
       buildResultsAccordion();
       buildStageOne();
       buildStageTwo();
+      buildStageThree();
     }
   });
 
@@ -653,4 +763,10 @@
     $('#submit').text('Next Question');
     $('#add-quotes').addClass('off');
   });
+
+  const updateGameStatus = function() {
+    const $quote = $('#quote');
+
+    
+  }
 })();
