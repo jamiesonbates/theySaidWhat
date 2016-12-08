@@ -701,6 +701,7 @@
       partTwo($target);
       stepTwoComplete = true;
       setCount += 1;
+      updateGameStatus();
       quoteCount += 1;
     }
     else if (stepOneComplete && stepTwoComplete && setCount < 10) {
@@ -762,11 +763,24 @@
     nextQuestion();
     $('#submit').text('Next Question');
     $('#add-quotes').addClass('off');
+    updateGameStatus();
   });
 
   const updateGameStatus = function() {
-    const $quote = $('#quote');
+    $('.status-bar').remove();
+    const $status = $('#status');
+    const width = 100 / allStatementsData.length;
+    console.log(allStatementsData.length);
+    console.log(quoteCount);
 
-    
+    for (let i = 0; i < quoteCount; i++) {
+      const $div = $('<div>').css('display', 'inline-block');
+      $div.css('width', width + '%');
+      $div.css('height', '100%');
+      $div.css('background-color', 'blue');
+      $div.css('border-right', '1px solid white');
+      $div.addClass('status-bar');
+      $status.append($div);
+    }
   }
 })();
