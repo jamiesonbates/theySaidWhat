@@ -224,3 +224,67 @@ footer .page-footer {
 .collapsible-body p {
   padding: 1rem;
 }
+
+.green-correct {
+  background-color:#66bb6a;
+}
+
+.red-incorrect {
+  background-color: #ef5350;
+}
+
+.yellow-close {
+  background-color: #ffee58;
+}
+
+/* has similar class above */
+#results {
+  height: 100%;
+}
+
+#stage-1, #stage2, #stage3 {
+  width: 100%;
+  height: 15%;
+}
+
+#stage1.row.col.s6, #stage2.row.col.s6, #stage3.row.col.s4 {
+  height: 100%;
+}
+
+#politician-results, #truth-results {
+  height: 100%;
+  width: 100%;
+}
+
+.quick-bio {
+  height: 70%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#most-answers {
+  height: 30%;
+  width: 100%;
+}
+
+#most-success {
+  height: 30%;
+  width: 100%;
+}
+
+#democrat, #republican, #third-party {
+  height: 100%;
+  width: 33.3%;
+}
+
+.party-p {
+  height: 50%;
+  width: 100%;
+}
+
+.party-results-dem, .party-results-rep, .party-results-third {
+  height: 50%;
+  width: 100%;
+}
