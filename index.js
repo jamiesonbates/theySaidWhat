@@ -743,37 +743,47 @@
     const stmt = statementsObjSet[setCount];
     $('.politician-info').removeClass('off');
 
-    if ($target.hasClass('answer-1')) {
-      $('div .answer-1 .panel-photo').attr('src', stmt.answerSet[0].photoUrl);
-      $('div .answer-1 .info-party').text('Party: ' + stmt.answerSet[0].party);
-      $('div .answer-1 .info-position').text('Position: ' + stmt.answerSet[0].position);
-      $('div .answer-1 .info-state').text('State: ' + stmt.answerSet[0].state);
-      $('div.politician-panel.answer-1').toggleClass('off');
+    const createInfoPanel = function(c, target, i) {
+
+      if ($target.hasClass(c)) {
+        $(`div ${target} .panel-photo`).attr('src', stmt.answerSet[i].photoUrl);
+        $(`div ${target} .info-party`).text('Party: ' + stmt.answerSet[i].party);
+        $(`div ${target} .info-position`).text('Position: ' + stmt.answerSet[0].position);
+        $(`div ${target} .info-state`).text('State: ' + stmt.answerSet[i].state);
+        $(`div.politician-panel.${c}`).toggleClass('off');
+      }
     }
 
-    if ($target.hasClass('answer-2')) {
-      $('div .answer-2 .panel-photo').attr('src', stmt.answerSet[1].photoUrl);
-      $('div .answer-2 .info-party').text('Party: ' + stmt.answerSet[1].party);
-      $('div .answer-2 .info-position').text('Position: ' + stmt.answerSet[1].position);
-      $('div .answer-2 .info-state').text('State: ' + stmt.answerSet[1].state);
-      $('div.politician-panel.answer-2').toggleClass('off');
-    }
+    createInfoPanel('answer-1', '.answer-1', 1);
+    createInfoPanel('answer-2', '.answer-2', 2);
+    createInfoPanel('answer-3', '.answer-3', 3);
+    createInfoPanel('answer-4', '.answer-4', 4);
 
-    if ($target.hasClass('answer-3')) {
-      $('div .answer-3 .panel-photo').attr('src', stmt.answerSet[2].photoUrl);
-      $('div .answer-3 .info-party').text('Party: ' + stmt.answerSet[2].party);
-      $('div .answer-3 .info-position').text('Position: ' + stmt.answerSet[2].position);
-      $('div .answer-3 .info-state').text('State: ' + stmt.answerSet[2].state);
-      $('div.politician-panel.answer-3').toggleClass('off');
-    }
-
-    if ($target.hasClass('answer-4')) {
-      $('div .answer-4 .panel-photo').attr('src', stmt.answerSet[3].photoUrl);
-      $('div .answer-4 .info-party').text('Party: ' + stmt.answerSet[3].party);
-      $('div .answer-4 .info-position').text('Position: ' + stmt.answerSet[3].position);
-      $('div .answer-4 .info-state').text('State: ' + stmt.answerSet[3].state);
-      $('div.politician-panel.answer-4').toggleClass('off');
-    }
+    //
+    //
+    // if ($target.hasClass('answer-2')) {
+    //   $('div .answer-2 .panel-photo').attr('src', stmt.answerSet[1].photoUrl);
+    //   $('div .answer-2 .info-party').text('Party: ' + stmt.answerSet[1].party);
+    //   $('div .answer-2 .info-position').text('Position: ' + stmt.answerSet[1].position);
+    //   $('div .answer-2 .info-state').text('State: ' + stmt.answerSet[1].state);
+    //   $('div.politician-panel.answer-2').toggleClass('off');
+    // }
+    //
+    // if ($target.hasClass('answer-3')) {
+    //   $('div .answer-3 .panel-photo').attr('src', stmt.answerSet[2].photoUrl);
+    //   $('div .answer-3 .info-party').text('Party: ' + stmt.answerSet[2].party);
+    //   $('div .answer-3 .info-position').text('Position: ' + stmt.answerSet[2].position);
+    //   $('div .answer-3 .info-state').text('State: ' + stmt.answerSet[2].state);
+    //   $('div.politician-panel.answer-3').toggleClass('off');
+    // }
+    //
+    // if ($target.hasClass('answer-4')) {
+    //   $('div .answer-4 .panel-photo').attr('src', stmt.answerSet[3].photoUrl);
+    //   $('div .answer-4 .info-party').text('Party: ' + stmt.answerSet[3].party);
+    //   $('div .answer-4 .info-position').text('Position: ' + stmt.answerSet[3].position);
+    //   $('div .answer-4 .info-state').text('State: ' + stmt.answerSet[3].state);
+    //   $('div.politician-panel.answer-4').toggleClass('off');
+    // }
   });
 
   $('.add-quotes').on('click', (event) => {

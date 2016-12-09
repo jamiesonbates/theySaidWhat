@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=PT-Serif');
 
 body {
-  height: 1000px;
+  height: 750px;
 }
 
 .body-background {
@@ -27,8 +27,13 @@ main .container {
   height: 100%;
 }
 
+#quiz {
+  height: 100%;
+  width: 100%;
+}
+
 #quote {
-  height: 45%;
+  height: 65%;
   width: 100%;
   position: relative;
   box-shadow: 0 0px 3px 0px gray;
@@ -44,16 +49,6 @@ main .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-#quiz {
-  height: 100%;
-  width: 100%;
-}
-
-h3#politician {
-  font-weight: bold;
-  color: #ef5350;
 }
 
 #quote.row {
@@ -72,6 +67,11 @@ h3#politician {
   font-size: 1.4em;
   margin-bottom: 5px;
   margin-top: 20px;
+}
+
+h3#politician {
+  font-weight: bold;
+  color: #ef5350;
 }
 
 .overflow {
@@ -232,6 +232,7 @@ p#truth-answer, p#politician-answer {
   height: 50px;
   width: 200px;
 }
+
 #submit p {
   margin: 0;
   font-size: 1em;
@@ -438,6 +439,8 @@ footer .page-footer {
   width: 100%;
   box-shadow: 0 0 3px 0 gray;
   background-color: white;
+  margin-top: 3%;
+  margin-bottom: 0;
 }
 
 .quick-bio {
