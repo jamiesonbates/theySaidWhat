@@ -240,7 +240,6 @@
     $('#truth-photo').removeClass('off');
     $('#truth-photo').attr('src', statementsObjSet[setCount].ruling.rulingGraphic);
     $('#summary-header').removeClass('off');
-    console.log(statementsObjSet[setCount].ruling.rulingSummary);
     $('#ruling-summary').removeClass('off');
     $('#ruling-summary').text(statementsObjSet[setCount].ruling.rulingSummary);
     $('#source').removeClass('off');
@@ -716,8 +715,11 @@
       renderTruthResults();
       stepTwoComplete = true;
       setCount += 1;
+      console.log(setCount);
       updateGameStatus();
+      console.log(setCount);
       quoteCount += 1;
+      console.log(quoteCount);
     }
     else if (stepOneComplete && stepTwoComplete && setCount < 10) {
       nextQuestion();
@@ -728,7 +730,7 @@
     else if (setCount === 10) {
       $('#quiz').addClass('off');
       $('#results').removeClass('off');
-      $('body').removeClass('body-background')
+      $('body').removeClass('body-background');
       buildResultsAccordion();
       buildStageOne();
       buildStageTwo();
@@ -780,6 +782,18 @@
     nextQuestion();
     $('#submit').text('Next Question');
     $('.add-quotes').addClass('off');
+    updateGameStatus();
+  });
+
+  $('.add-quotes-results').on('click', (event) => {
+    organizeData();
+    setCount = 0;
+    nextQuestion();
+    $('.add-quotes').addClass('off');
+    $('#submit').text('Next Question');
+    $('#results').addClass('off');
+    $('#quiz').removeClass('off');
+    $('body').addClass('body-background');
     updateGameStatus();
   });
 

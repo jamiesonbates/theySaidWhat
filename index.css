@@ -227,7 +227,7 @@ p#truth-answer, p#politician-answer {
   margin-bottom: 5px;
 }
 
-#submit, #add-quotes {
+#submit, .add-quotes, .add-quotes-results {
   /*margin-top: 3%;*/
   height: 50px;
   width: 200px;
