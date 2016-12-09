@@ -804,6 +804,13 @@
     $('#results').addClass('off');
     $('#quiz').removeClass('off');
     $('body').addClass('body-background');
+    $('#politician-results').children().remove();
+    $('#truth-results').children().remove();
+    $('#most-answers').children().remove();
+    $('#most-success').children().remove();
+    $('#party-results-dem').children().remove();
+    $('#party-results-rep').children().remove();
+    $('#party-results-third').children().remove();
     updateGameStatus();
   });
 
