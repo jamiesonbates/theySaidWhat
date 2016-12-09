@@ -74,10 +74,6 @@ h3#politician {
   color: #ef5350;
 }
 
-.overflow {
-  overflow: scroll;
-}
-
 #context {
   font-style: italic;
   margin-top: 5px;
