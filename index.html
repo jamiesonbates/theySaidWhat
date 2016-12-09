@@ -13,7 +13,7 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     <script defer src="index.js"></script>
   </head>
-  <body>
+  <body class="body-background">
     <nav>
       <div class="nav-wrapper row red lighten-1">
         <a href="#" class="brand-logo center"><h1 class="white-text">They Said What?</h1></a>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="row extra-info">
-                  <div class="col s4">
+                  <div class="col s3">
                     <h4>Party</h4>
                     <p id="party"></p>
                     <h4>Notable Position</h4>
@@ -51,23 +51,43 @@
                     <h4>State</h4>
                     <p id="state"></p>
                   </div>
-                  <div class="col s8">
+
+                  <div class="col s4">
+                    <div class="row">
+                      <div class="col s12">
+                        <h5 id="politician-result"></h5>
+                        <p id="politician-answer"></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col s12">
+                        <h5 id="truth-result"></h5>
+                        <p id="truth-answer"></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col s5">
                     <div class="row truth-info">
                       <div class="col s4">
                       <img src="#" id="truth-photo" class="off img-size2">
                       </div>
+
                       <div class="col s8">
                         <h3 id="summary-header" class="off">Politifact's Summary</h3>
                         <p id="ruling-summary"></p>
-                        <a target="_blank" href="#" id="source" class="off">Learn more</a>
+                        <a target="_blank" href="#" id="source" class="off">Source</a>
                       </div>
                     </div>
                   </div>
                 </div>
-              </section>
-            </div>
 
+              </section>
+
+            </div>
             <div id="status" class="row"></div>
+
           </section>
 
           <section id="prompt">
@@ -145,7 +165,7 @@
             </div>
           </div>
 
-          <div class="politician-info row">
+          <div class="politician-info row off">
             <div class="col s3">
               <div class="politician-panel off answer-1">
                 <img src="#" class="panel-photo">
@@ -183,44 +203,37 @@
             </div>
           </div>
 
-          <div id="quote-tracker" class="row">
+          <div id="quote-tracker" class="row off">
             <div class="col s12">
               <div class="center">
-                <p id="quote-count">Quote 1 of 10</p>
+                <button id="add-quotes" class="btn off red lighten-1">Add Quotes</button>
                 <button id="submit" class="btn off select red lighten-1">Next Question</button>
-                <button id="add-quotes" class="btn off">Add Quotes</button>
               </div>
             </div>
           </div>
-
-          <section id="question-results" class="off">
-            <div class="row">
-              <div class="col s6">
-                <div id="politician-question" class="center off">
-                  <h4>Who Said This?</h4>
-                  <h5 id="politician-result" class="red-text text-lighten-1"></h5>
-                  <p id="politician-answer"></p>
-                </div>
-              </div>
-              <div class="col s6">
-                <div id="truth-question" class="center off">
-                  <h4>Is this truthful?</h4>
-                  <h5 id="truth-result" class="red-text text-lighten-1"></h5>
-                  <p id="truth-answer"></p>
-                </div>
-              </div>
-            </div>
-          </section>
         </section>
 
         <div id="results" class="off">
+          <div id="results-heading">
+            <h2>Here's how you did!</h2>
+            <h3>The more quotes you do, the more interesting your results will be!</h3>
+            <button class="add-quotes btn purple lighten-1 results-add-quotes">Add Quotes</button>
+          </div>
           <div id="stage-1" class="row">
             <div class="col s6">
-              <div id="politician-results"></div>
+              <div class="stage-1-box">
+                <div id="politician-results">
+                  <h5>How good are you at detecing politics?</h5>
+                </div>
+              </div>
             </div>
 
             <div class="col s6">
-              <div id="truth-results"></div>
+              <div class="stage-1-box">
+                <div id="truth-results">
+                  <h5>How good are you at sniffing out a lie?</h5>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -228,6 +241,7 @@
             <div class="col s4">
               <div id="democrat">
                 <div class="party-p">
+                  <h5>How good are you at sniffing out Democrats?</h5>
                   <p id="party-intro-dem"></p>
                 </div>
                 <div id="party-results-dem"></div>
@@ -237,6 +251,7 @@
             <div class="col s4">
               <div id="republican">
                 <div class="party-p">
+                  <h5>How good are you at sniffing out Republicans?</h5>
                   <p id="party-intro-rep"></p>
                 </div>
                 <div id="party-results-rep"></div>
@@ -246,6 +261,7 @@
             <div class="col s4">
               <div id="third-party">
                 <div class="party-p">
+                  <h5>How good are you at sniffing out third parties?</h5>
                   <p id="party-intro-third"></p>
                 </div>
                 <div id="party-results-third"></div>
@@ -254,8 +270,9 @@
           </div>
 
           <div id="stage-2" class="row">
-            <div class="col s6">
+            <div class="col s6 stage-2-box">
               <div id="most-questions">
+                <h5>Here is the politician you saw the most often.</h5>
                 <div class="quick-bio">
                   <div>
                     <img src="#" id="most-photo">
@@ -270,8 +287,9 @@
               </div>
             </div>
 
-            <div class="col s6">
+            <div class="col s6 stage-2-box">
               <div id="most-successful">
+                <h5>Here is the politician you did the best with.</h5>
                 <div class="quick-bio">
                   <div>
                     <img src="#" id="success-photo">

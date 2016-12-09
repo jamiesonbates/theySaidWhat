@@ -210,6 +210,9 @@
 
     $('div.politician-panel').addClass('off');
     $('.extra-info').removeClass('off');
+
+    $('div.politician-info').addClass('off');
+    $('body').addClass('body-background');
   };
 
   const partTwo = function($target) {
@@ -237,6 +240,8 @@
     $('#truth-photo').removeClass('off');
     $('#truth-photo').attr('src', statementsObjSet[setCount].ruling.rulingGraphic);
     $('#summary-header').removeClass('off');
+    console.log(statementsObjSet[setCount].ruling.rulingSummary);
+    $('#ruling-summary').removeClass('off');
     $('#ruling-summary').text(statementsObjSet[setCount].ruling.rulingSummary);
     $('#source').removeClass('off');
     $('#source').attr('href', statementsObjSet[setCount].statement.statementUrl);
@@ -245,8 +250,10 @@
 
     $('#submit').removeClass('off');
 
+    $('#quote-tracker').removeClass('off');
+
     if (setCount === 9) {
-      $('#add-quotes').removeClass('off');
+      $('.add-quotes').removeClass('off');
     }
   };
 
@@ -280,6 +287,7 @@
     $('#question-results').addClass('off');
     $('#truth-question').addClass('off');
     $('#politician-question').addClass('off');
+    $('#quote-tracker').addClass('off');
   };
 
   const countPoliticiansCorrect = function() {
@@ -485,18 +493,15 @@
     $mostSeenAnswers.append($mostSeenColors);
 
     const seenCount = mostSuccessPolitician();
-    console.log(seenCount);
+
     let highest = [null, 0];
 
     for (const politician in seenCount) {
-      console.log(seenCount.politician);
       if (seenCount[politician].count > highest[1]) {
         highest[0] = seenCount[politician];
         highest[1] = seenCount[politician].count;
       }
     }
-
-    console.log(highest);
 
     $('#success-photo').attr('src', highest[0].stmt[0].speaker.photoUrl);
     $('#success-name').text(highest[0].stmt[0].speaker.name);
@@ -723,6 +728,7 @@
     else if (setCount === 10) {
       $('#quiz').addClass('off');
       $('#results').removeClass('off');
+      $('body').removeClass('body-background')
       buildResultsAccordion();
       buildStageOne();
       buildStageTwo();
@@ -733,6 +739,7 @@
   $('.more-info').on('click', (event) => {
     const $target = $(event.target);
     const stmt = statementsObjSet[setCount];
+    $('.politician-info').removeClass('off');
 
     if ($target.hasClass('answer-1')) {
       $('div .answer-1 .panel-photo').attr('src', stmt.answerSet[0].photoUrl);
@@ -767,12 +774,12 @@
     }
   });
 
-  $('#add-quotes').on('click', (event) => {
+  $('.add-quotes').on('click', (event) => {
     organizeData();
     setCount = 0;
     nextQuestion();
     $('#submit').text('Next Question');
-    $('#add-quotes').addClass('off');
+    $('.add-quotes').addClass('off');
     updateGameStatus();
   });
 
@@ -780,15 +787,13 @@
     $('.status-bar').remove();
     const $status = $('#status');
     const width = 100 / allStatementsData.length;
-    console.log(allStatementsData.length);
-    console.log(quoteCount);
 
     for (let i = 0; i < quoteCount; i++) {
       const $div = $('<div>').css('display', 'inline-block');
       $div.css('width', width + '%');
       $div.css('height', '100%');
-      $div.css('background-color', 'white');
-      $div.css('border-right', '1px solid white');
+      $div.css('background-color', '#ef5350');
+      $div.css('border', '1px solid #white');
       $div.addClass('status-bar');
       $status.append($div);
     }
@@ -796,40 +801,43 @@
 
   const renderPoliticianResults = function() {
     const currentQuestion = allStatementsData[setCount];
-    console.log(currentQuestion);
 
     $('#question-results').removeClass('off');
     $('#politician-question').removeClass('off');
 
     if (currentQuestion.user.speakerGuessCorrect === true) {
       $('#politician-result').text('Correct!');
-      $('#politician-answer').text(`You correctly guessed "${currentQuestion.user.speakerGuess}!"`)
+      $('#politician-result').addClass('green-correct-color');
+      $('#politician-answer').text(`You correctly guessed "${currentQuestion.user.speakerGuess}!"`);
     }
 
     if (currentQuestion.user.speakerGuessCorrect === false) {
-      $('#politician-result').text('Incorrect.')
+      $('#politician-result').text('Incorrect.');
+      $('#politician-result').addClass('red-incorrect-color');
       $('#politician-answer').text(`You incorrectly guessed "${currentQuestion.user.speakerGuess}."`);
     }
   }
 
   const renderTruthResults = function() {
     const currentQuestion = allStatementsData[setCount];
-    console.log(currentQuestion);
 
     $('#truth-question').removeClass('off');
 
     if (currentQuestion.user.truthGuessCorrect === true) {
       $('#truth-result').text('Correct!');
+      $('#truth-result').addClass('green-correct-color');
       $('#truth-answer').text(`You correctly guessed "${currentQuestion.user.truthGuess}!"`);
     }
 
     if (currentQuestion.user.truthGuessDifference === 1) {
       $('#truth-result').text('Incorrect, but close!');
+      $('#truth-result').addClass('red-incorrect-color');
       $('#truth-answer').text(`You incorrectly guessed "${currentQuestion.user.truthGuess}," but you were within one!`);
     }
 
     if (currentQuestion.user.truthGuessDifference > 1) {
       $('#truth-result').text('Incorrect.');
+      $('#truth-result').addClass('red-incorrect-color');
       $('#truth-answer').text(`You incorrectly guessed "${currentQuestion.user.truthGuess}."`);
     }
   }
