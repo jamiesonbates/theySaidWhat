@@ -287,6 +287,10 @@
     $('#truth-question').addClass('off');
     $('#politician-question').addClass('off');
     $('#quote-tracker').addClass('off');
+    $('#politician-result').addClass('off');
+    $('#politician-answer').addClass('off');
+    $('#truth-result').addClass('off');
+    $('#truth-answer').addClass('off');
   };
 
   const countPoliticiansCorrect = function() {
@@ -748,9 +752,9 @@
       if ($target.hasClass(c)) {
         $(`div ${target} .panel-photo`).attr('src', stmt.answerSet[i].photoUrl);
         $(`div ${target} .info-party`).text('Party: ' + stmt.answerSet[i].party);
-        $(`div ${target} .info-position`).text('Position: ' + stmt.answerSet[0].position);
+        $(`div ${target} .info-position`).text('Position: ' + stmt.answerSet[i].position);
         $(`div ${target} .info-state`).text('State: ' + stmt.answerSet[i].state);
-        $(`div.politician-panel.${c}`).toggleClass('off');
+        $(`div.politician-panel${target}`).toggleClass('off');
       }
     }
 
@@ -835,6 +839,8 @@
 
     $('#question-results').removeClass('off');
     $('#politician-question').removeClass('off');
+    $('#politician-result').removeClass('off');
+    $('#politician-answer').removeClass('off');
 
     if (currentQuestion.user.speakerGuessCorrect === true) {
       $('#politician-result').text('Correct!');
@@ -853,6 +859,8 @@
     const currentQuestion = allStatementsData[setCount];
 
     $('#truth-question').removeClass('off');
+    $('#truth-result').removeClass('off');
+    $('#truth-answer').removeClass('off');
 
     if (currentQuestion.user.truthGuessCorrect === true) {
       $('#truth-result').text('Correct!');
