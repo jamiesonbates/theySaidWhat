@@ -449,7 +449,7 @@
 
     const speakerStatements = statementArray.reduce(function(acc, e){
       for(const speaker of speakerArray){
-          if(e.speaker.name == speaker){
+          if(e.speaker.name == speaker && e.user.speakerGuessCorrect === true){
               if(acc.hasOwnProperty(speaker)){
                 acc[speaker].count++;
                 acc[speaker].stmt.push(e);
@@ -501,6 +501,7 @@
 
     let highest = [null, 0];
 
+    console.log(seenCount);
     for (const politician in seenCount) {
       if (seenCount[politician].count > highest[1]) {
         highest[0] = seenCount[politician];
