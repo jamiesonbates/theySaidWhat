@@ -7,27 +7,9 @@
 //
 // -----------------------------------------------------------------------------
   let statementsObjSet;
-  let allStatementsData = [];
-  let allStatementsUrl = [];
+  const allStatementsData = [];
+  const allStatementsUrl = [];
   let dataSet;
-
-  const getStatements = function() {
-    const $xhr = $.ajax({
-      method: 'GET',
-      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=200&offset=0 &format=json',
-      dataType: 'json'
-    });
-
-    $xhr.done((data) => {
-      if ($xhr.status !== 200) {
-        return;
-      }
-      dataSet = data;
-      organizeData();
-    });
-  };
-
-  getStatements();
 
   const organizeData = function() {
 
@@ -165,7 +147,25 @@
       allStatementsUrl.push(statement.statement.statementUrl);
       allStatementsData.push(statement);
     }
-  }
+  };
+
+  const getStatements = function() {
+    const $xhr = $.ajax({
+      method: 'GET',
+      url: 'https://cors-anywhere.herokuapp.com/http://www.politifact.com/api/v/2/statementlist/?limit=200&offset=0 &format=json',
+      dataType: 'json'
+    });
+
+    $xhr.done((data) => {
+      if ($xhr.status !== 200) {
+        return;
+      }
+      dataSet = data;
+      organizeData();
+    });
+  };
+
+  getStatements();
 
 // -----------------------------------------------------------------------------
 //
@@ -214,14 +214,10 @@
   };
 
   const partTwo = function($target) {
-    // console.log($target);
     const answerTruth = $target.text();
-    // console.log('Speaker Choice: ' + answerTruth);
     const guessOptions = ['True', 'Mostly True', 'Half-True', 'Mostly False', 'False', 'Pants on Fire'];
 
-    // console.log(statementsObjSet[setCount]);
     statementsObjSet[setCount].user.truthGuess = answerTruth;
-    // console.log(statementsObjSet[setCount]);
 
     if (statementsObjSet[setCount].user.truthGuess === statementsObjSet[setCount].ruling.ruling) {
       $('#ruling').text(`Correct! The statement is ${statementsObjSet[setCount].ruling.ruling}`);
@@ -303,8 +299,9 @@
         correctCount += 1;
       }
     }
+
     return correctCount;
-  }
+  };
 
   const countTruthCorrect = function() {
     let correctCount = 0;
@@ -314,8 +311,9 @@
         correctCount += 1;
       }
     }
+
     return correctCount;
-  }
+  };
 
   const countTruthClose = function() {
     let closeCount = 0;
@@ -325,29 +323,34 @@
         closeCount += 1;
       }
     }
+
     return closeCount;
-  }
+  };
 
   const buildStageOne = function() {
     const divWidth = 100 / allStatementsData.length;
-    const poliCorrect = countPoliticiansCorrect()
-    const poliIncorrect = allStatementsData.length - countPoliticiansCorrect();
+    const poliCorrect = countPoliticiansCorrect();
     const $politicianResults = $('#politician-results');
     const $poliD = $('<div>');
+
     $poliD.css('width', '100%');
     $poliD.css('height', '50%');
+
     const $poliP = $('<p>').text(`You guessed ${poliCorrect} of ${allStatementsData.length} correctly!`);
+
     $poliD.append($poliP);
     $politicianResults.append($poliD);
 
     const $divPoliColors = $('<div>');
+
     $divPoliColors.css('width', '100%');
     $divPoliColors.css('height', '50%');
 
     for (const statement of allStatementsData) {
       const $divPoliColor = $('<div>').css('display', 'inline-block');
+
       $divPoliColor.css('border-right', '1px solid white');
-      $divPoliColor.css('width', (divWidth + '%'));
+      $divPoliColor.css('width', (`${divWidth}%`));
       $divPoliColor.css('height', '20px');
 
       if (statement.user.speakerGuessCorrect === true) {
@@ -365,21 +368,25 @@
     const truthClose = countTruthClose();
     const $truthResults = $('#truth-results');
     const $truthD = $('<div>');
+
     $truthD.css('width', '100%');
     $truthD.css('height', '50%');
     const $truthP = $('<p>').text(`You guessed ${truthCorrect} rulings correctly and were close on ${truthClose} more!`);
+
     $truthResults.append($truthP);
     $truthD.append($truthP);
     $truthResults.append($truthD);
 
     const $divTruthColors = $('<div>');
+
     $divTruthColors.css('width', '100%');
     $divTruthColors.css('height', '50%');
 
     for (const statement of allStatementsData) {
       const $divTruthColor = $('<div>').css('display', 'inline-block');
-      $divTruthColor.css('border-right', '1px solid white')
-      $divTruthColor.css('width', (divWidth + '%'));
+
+      $divTruthColor.css('border-right', '1px solid white');
+      $divTruthColor.css('width', (`${divWidth}%`));
       $divTruthColor.css('height', '20px');
 
       if (statement.user.truthGuessCorrect === true) {
@@ -396,7 +403,7 @@
       $divTruthColors.append($divTruthColor);
     }
     $truthResults.append($divTruthColors);
-  }
+  };
 
   const mostSeenPolitician = function() {
     const speakerArray = [];
@@ -421,17 +428,19 @@
         currentHigh[1] = count;
       }
     });
+
     return currentHigh[0];
-  }
+  };
 
   const mostSeenResults = function(mostSeen) {
-    const questionResults = allStatementsData.filter((statement, index) => {
+    const questionResults = allStatementsData.filter((statement) => {
       if (mostSeen.speaker.name === statement.speaker.name) {
         return statement;
       }
     });
+
     return questionResults;
-  }
+  };
 
   const mostSuccessPolitician = function() {
     const speakerArray = [];
@@ -448,42 +457,46 @@
     }
 
     const speakerStatements = statementArray.reduce(function(acc, e){
-      for(const speaker of speakerArray){
-          if(e.speaker.name == speaker && e.user.speakerGuessCorrect === true){
-              if(acc.hasOwnProperty(speaker)){
-                acc[speaker].count++;
-                acc[speaker].stmt.push(e);
-              }
-              else {
-                acc[speaker] = {};
-                acc[speaker].count = 1;
-                acc[speaker].stmt = [e];
-              }
+      for (const speaker of speakerArray) {
+          if (e.speaker.name === speaker && e.user.speakerGuessCorrect === true) {
+            if (acc.hasOwnProperty(speaker)) {
+              acc[speaker].count += 1;
+              acc[speaker].stmt.push(e);
+            }
+            else {
+              acc[speaker] = {};
+              acc[speaker].count = 1;
+              acc[speaker].stmt = [e];
+            }
           }
       }
+
       return acc;
-    }, {})
+    }, {});
 
     return speakerStatements;
-  } //has bug in it where statements are added twice (duplicates)
+  };
 
   const buildStageTwo = function() {
     const mostSeen = mostSeenPolitician();
     const questionResults = mostSeenResults(mostSeen);
     const divWidthSeen = 100 / questionResults.length;
+
     $('#most-photo').attr('src', mostSeen.speaker.photoUrl);
     $('#most-name').text(mostSeen.speaker.name);
     $('#most-party').text(mostSeen.speaker.party);
     const $mostSeenAnswers = $('#most-answers');
 
     const $mostSeenColors = $('<div>');
+
     $mostSeenColors.css('width', '100%');
     $mostSeenColors.css('height', '50%');
 
     for (const statement of questionResults) {
       const $mostSeenColor = $('<div>').css('display', 'inline-block');
+
       $mostSeenColor.css('border-right', '1px solid white');
-      $mostSeenColor.css('width', (divWidthSeen + '%'));
+      $mostSeenColor.css('width', (`${divWidthSeen}%`));
       $mostSeenColor.css('height', '20px');
 
       if (statement.user.speakerGuessCorrect === true) {
@@ -499,9 +512,8 @@
 
     const seenCount = mostSuccessPolitician();
 
-    let highest = [null, 0];
+    const highest = [null, 0];
 
-    console.log(seenCount);
     for (const politician in seenCount) {
       if (seenCount[politician].count > highest[1]) {
         highest[0] = seenCount[politician];
@@ -516,13 +528,15 @@
     const $mostSuccessAnswers = $('#most-success');
 
     const $mostSuccessColors = $('<div>');
+
     $mostSuccessColors.css('width', '100%');
     $mostSuccessColors.css('height', '50%');
 
     for (const statement of highest[0].stmt) {
       const $mostSuccessColor = $('<div>').css('display', 'inline-block');
+
       $mostSuccessColor.css('border-right', '1px solid white');
-      $mostSuccessColor.css('width', (divWidthSuccess + '%'));
+      $mostSuccessColor.css('width', (`${divWidthSuccess}%`));
       $mostSuccessColor.css('height', '20px');
 
       if (statement.user.speakerGuessCorrect === true) {
@@ -535,7 +549,7 @@
       $mostSuccessColors.append($mostSuccessColor);
     }
     $mostSuccessAnswers.append($mostSuccessColors);
-  }
+  };
 
   const partyDifferences = function() {
     const democrats = [];
@@ -554,8 +568,8 @@
       }
     }
 
-    return [democrats,republicans,thirdParties];
-  }
+    return [democrats, republicans, thirdParties];
+  };
 
   const buildStageThree = function() {
     const partyDiffArray = partyDifferences();
@@ -605,13 +619,15 @@
     $('#party-intro-dem').text(`You guessed Democrats correctly ${demCorrect.length} times out of ${dem.length}`);
     const $demAnswers = $('#party-results-dem');
     const $demColors = $('<div>');
+
     $demColors.css('width', '100%');
     $demColors.css('height', '50%');
 
     for (const statement of dem) {
       const $demColor = $('<div>').css('display', 'inline-block');
+
       $demColor.css('border-right', '1px solid white');
-      $demColor.css('width', (divWidthDem + '%'));
+      $demColor.css('width', (`${divWidthDem}%`));
       $demColor.css('height', '20px');
 
       if (statement.user.speakerGuessCorrect === true) {
@@ -628,13 +644,15 @@
     $('#party-intro-rep').text(`You guessed Republicans correctly ${repCorrect.length} times out of ${rep.length}`);
     const $repAnswers = $('#party-results-rep');
     const $repColors = $('<div>');
+
     $repColors.css('width', '100%');
     $repColors.css('height', '50%');
 
     for (const statement of rep) {
       const $repColor = $('<div>').css('display', 'inline-block');
+
       $repColor.css('border-right', '1px solid white');
-      $repColor.css('width', (divWidthRep + '%'));
+      $repColor.css('width', (`${divWidthRep}%`));
       $repColor.css('height', '20px');
 
       if (statement.user.speakerGuessCorrect === true) {
@@ -651,13 +669,15 @@
     $('#party-intro-third').text(`You guessed Third Parties correctly ${thirdCorrect.length} times out of ${third.length}`);
     const $thirdAnswers = $('#party-results-third');
     const $thirdColors = $('<div>');
+
     $thirdColors.css('width', '100%');
     $thirdColors.css('height', '50%');
 
     for (const statement of third) {
       const $thirdColor = $('<div>').css('display', 'inline-block');
+
       $thirdColor.css('border-right', '1px solid white');
-      $thirdColor.css('width', (divWidthThird + '%'));
+      $thirdColor.css('width', (`${divWidthThird}%`));
       $thirdColor.css('height', '20px');
 
       if (statement.user.speakerGuessCorrect === true) {
@@ -670,7 +690,7 @@
       $thirdColors.append($thirdColor);
     }
     $thirdAnswers.append($thirdColors);
-  }
+  };
 
   const buildResultsAccordion = function() {
     let countQuotes = 1;
@@ -680,7 +700,8 @@
       const $li = $('<li>');
       const $divI = $('<div>').addClass('collapsible-header');
       const $icon = $('<i>').addClass('material-icons');
-      $icon.text('add')
+
+      $icon.text('add');
       $divI.text(`Quote ${countQuotes} - ${statement.speaker.name}`);
       $divI.append($icon);
       const $divP = $('<div>').addClass('collapsible-body');
@@ -715,18 +736,14 @@
       partOne($target);
       renderPoliticianResults();
       stepOneComplete = true;
-
     }
     else if (stepOneComplete && !stepTwoComplete) {
       partTwo($target);
       renderTruthResults();
       stepTwoComplete = true;
       setCount += 1;
-      // console.log(setCount);
       updateGameStatus();
-      // console.log(setCount);
       quoteCount += 1;
-      // console.log(quoteCount);
     }
     else if (stepOneComplete && stepTwoComplete && setCount < 10) {
       nextQuestion();
@@ -748,18 +765,18 @@
   $('.more-info').on('click', (event) => {
     const $target = $(event.target);
     const stmt = statementsObjSet[setCount];
+
     $('.politician-info').removeClass('off');
 
     const createInfoPanel = function(c, target, i) {
-
       if ($target.hasClass(c)) {
         $(`div ${target} .panel-photo`).attr('src', stmt.answerSet[i].photoUrl);
-        $(`div ${target} .info-party`).text('Party: ' + stmt.answerSet[i].party);
-        $(`div ${target} .info-position`).text('Position: ' + stmt.answerSet[i].position);
-        $(`div ${target} .info-state`).text('State: ' + stmt.answerSet[i].state);
+        $(`div ${target} .info-party`).text(`Party: ${stmt.answerSet[i].party}`);
+        $(`div ${target} .info-position`).text(`Position: ${stmt.answerSet[i].position}`);
+        $(`div ${target} .info-state`).text(`State: ${stmt.answerSet[i].state}`);
         $(`div.politician-panel${target}`).toggleClass('off');
       }
-    }
+    };
 
     createInfoPanel('answer-1', '.answer-1', 1);
     createInfoPanel('answer-2', '.answer-2', 2);
@@ -767,7 +784,7 @@
     createInfoPanel('answer-4', '.answer-4', 4);
   });
 
-  $('.add-quotes').on('click', (event) => {
+  $('.add-quotes').on('click', () => {
     organizeData();
     setCount = 0;
     nextQuestion();
@@ -776,7 +793,7 @@
     updateGameStatus();
   });
 
-  $('.add-quotes-results').on('click', (event) => {
+  $('.add-quotes-results').on('click', () => {
     organizeData();
     setCount = 0;
     nextQuestion();
@@ -802,14 +819,15 @@
 
     for (let i = 0; i < quoteCount; i++) {
       const $div = $('<div>').css('display', 'inline-block');
-      $div.css('width', width + '%');
+
+      $div.css('width', `${width}%`);
       $div.css('height', '100%');
       $div.css('background-color', '#ef5350');
       $div.css('border', '1px solid #white');
       $div.addClass('status-bar');
       $status.append($div);
     }
-  }
+  };
 
   const renderPoliticianResults = function() {
     const currentQuestion = statementsObjSet[setCount];
@@ -819,7 +837,6 @@
     $('#politician-result').removeClass('off');
     $('#politician-answer').removeClass('off');
 
-    console.log(currentQuestion);
     if (currentQuestion.user.speakerGuessCorrect === true) {
       $('#politician-result').text('Correct!');
       $('#politician-result').css('color', '#66bb6a');
@@ -831,7 +848,7 @@
       $('#politician-result').css('color', '#ef5350');
       $('#politician-answer').text(`You incorrectly guessed "${currentQuestion.user.speakerGuess}."`);
     }
-  }
+  };
 
   const renderTruthResults = function() {
     const currentQuestion = statementsObjSet[setCount];
@@ -839,7 +856,7 @@
     $('#truth-question').removeClass('off');
     $('#truth-result').removeClass('off');
     $('#truth-answer').removeClass('off');
-    // consider removing these answer from the DOM instead of turning them on and off
+
     if (currentQuestion.user.truthGuessCorrect === true) {
       $('#truth-result').text('Correct!');
       $('#truth-result').css('color', '#66bb6a');
@@ -857,5 +874,5 @@
       $('#truth-result').css('color', '#ef5350');
       $('#truth-answer').text(`You incorrectly guessed "${currentQuestion.user.truthGuess}."`);
     }
-  }
+  };
 })();
