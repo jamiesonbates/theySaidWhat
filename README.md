@@ -14,3 +14,17 @@ Video: https://vimeo.com/195315177
 * jQuery
 * Ajax
 * Politifact API (http://static.politifact.com/api/v2apidoc.html)
+
+## Future Development
+There a few important features I would like to add in the future:
+  * Login with Facebook, save results, and share
+  * Create sharing opportunities throughout append
+  * Make the app responsive
+
+There are also a few wish list features that I would like to add:
+  * Incorporate additional fact check organizations:
+    * FactCheck.org
+    * Washington Post Fact Checking
+    * NY Times Fact Checking
+    * Ballotpedia Fact Checking
+  * Page where fact checks are browsable within app. (Used post-quiz)
