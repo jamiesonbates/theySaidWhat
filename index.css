@@ -153,10 +153,6 @@ h3#politician {
   font-size: 1.75em;
 }
 
-#question-results h5 {
-  font-size: 1.25;
-}
-
 p#truth-answer, p#politician-answer {
   margin-top: 0;
   margin-bottom: 10px;
@@ -486,8 +482,6 @@ footer .page-footer {
   box-shadow: 0 0 3px 0 gray;
 }
 
-
-
 #status {
   width: 100%;
   height: 2%;
@@ -501,9 +495,4 @@ footer .page-footer {
 
 #most-questions, #most-successful {
   padding: 20px;
-}
-
-.img-size {
-  /*border: 2px solid #ef5350;*/
-  /*box-shadow: 0 3px 4px 1px gray;*/
 }
